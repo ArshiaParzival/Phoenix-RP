@@ -6,7 +6,7 @@
      Version 1.0.0
   </h3>
   <h4 align="center">
-      By Parzival 
+      Develop By Parzival 
   </h4>
 </p>
 
@@ -36,3 +36,5 @@
 
 ### Support
 * Join our [Discord](https://discord.com/invite/pku7FYbxZj) Server for Support or open an issue via GitHub.
+
+©️ CopyRight By Phonix Developer ArshiaParzival
