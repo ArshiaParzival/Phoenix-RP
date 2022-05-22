@@ -1,0 +1,109 @@
+@font-face {
+	font-family: bankgothic;
+	src: url('../fonts/bankgothic.ttf');
+}
+
+@font-face {
+	font-family: pcdown;
+	src: url('../fonts/pdown.ttf');
+}
+
+.menu {
+	border-radius: 10px;
+	font-family: Verdana;
+	min-width: 330px;
+	color: #fff;
+	position: absolute;
+	background-color: #be1919;
+}
+
+.menu.align-left {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-top-left {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-top {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-top-right {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-right {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-bottom-right {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-bottom {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-bottom-left {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu.align-center {
+	left: 40;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.menu .head {
+	background-color: #be1919;
+	border-radius: 20px 20px 0px 0px;
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+	line-height: 50px;
+	font-family: FREEDOM;
+	src: url('../fonts/pdown.ttf');
+}
+
+.menu .menu-items {
+	max-height: 600px;
+	overflow-y: hidden;
+	border-radius: 5px;
+}
+
+.menu .menu-items .menu-item {
+	height: 40px;
+	display: block;
+	border-radius: 7px;
+
+	text-indent: 10px;
+	margin: 15px;
+	background-image: linear-gradient(to right, rgb(1, 1, 3), rgb(0, 0, 0));
+	height: 32px;
+	line-height: 32px;
+	color: white;
+	text-align: center;
+}
+
+.menu .menu-items .menu-item.selected {
+	background-image: linear-gradient(to right, rgb(251, 251, 251), rgb(251, 251, 251));
+	transform: 50%;
+	color: black;
+}
