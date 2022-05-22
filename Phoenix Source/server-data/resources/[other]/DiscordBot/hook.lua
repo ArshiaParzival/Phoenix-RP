@@ -1,0 +1,16 @@
+Hooks = {
+    system      = '',
+    connect     = '',
+    disconnect  = '',
+    kill        = '',
+    chat        = '',
+    comserv     = '',
+	amoney		= '',
+	setgang		= '',
+	setjob      = '',
+    co          = '',
+    ci          = '',
+    creategang  = '',
+    disband     = '',
+    fine        = '',
+}

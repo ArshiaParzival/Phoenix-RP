@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<title>rp-radio</title>
+		<style>
+			table.indicator {
+				position:absolute;
+				top:30vh;
+				border-spacing: 0 1px;
+			}
+			.indicator td{
+				padding: 4px 2px;
+                background: #00000087;
+				color: #fff;
+				font-size: 16px;
+			}
+			.indicator td:nth-child(1) {
+				border-top-left-radius: 10px;
+				border-bottom-left-radius: 10px;
+				padding-left:10px;
+			}
+			.indicator td:nth-child(2) {
+				border-top-right-radius: 10px;
+				border-bottom-right-radius: 10px;
+				padding-right:10px;
+			}
+			.indicator img { 
+				width:15px;
+			}
+		</style>
+		<script type="text/javascript">		
+			window.addEventListener("message", function(event) {
+				var item = event.data;
+				if (item.action == "indicator"){
+					updateIndicator(item.value);
+				} else if (item.sound && item.volume) {
+					document.getElementById(item.sound)
+					document.getElementById(item.sound).load();
+					document.getElementById(item.sound).volume = item.volume;
+					document.getElementById(item.sound).play();
+				}
+				
+			});
+			function updateIndicator(talkings){
+				$('.indicator').html('');
+				for(src in talkings) {
+					$('.indicator').append(`<tr><td><img class="w-100" src="call.png"></td><td>${talkings[src]}</td></tr>`);
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<table class="indicator">
+		</table>
+		<audio id="audio_on" src="on.ogg"></audio>
+		<audio id="audio_off" src="off.ogg"></audio>
+	</body>
+</html>

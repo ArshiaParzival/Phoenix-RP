@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body style="display:none;">
+    <table class="indicator">
+    </table>
+    <div class="statusTile">
+        <div class="icons" style="padding: 0 10px; position: absolute; top: 25px; right: 15px;">
+            <div class="hunger-holder">
+                <span class="percentage"></span>
+                <div class="viewport">
+                    <span class="hunger"></span>
+                </div>
+                <img style="width: 28px;padding: 11px;" src="img/burger.svg" />
+                <div class="hunger">
+                </div>
+            </div>
+            <div class="thirst-holder">
+                <span class="percentage"></span>
+                <div class="viewport">
+                    <span class="thirst"></span>
+                </div>
+                <img style="width: 22px;padding: 10px 15px;" src="img/water.svg" />
+                <div class="thirst">
+                </div>
+            </div>
+            <div class="armor-holder">
+                <span class="percentage"></span>
+                <div class="viewport">
+                    <span class="armor"></span>
+                </div>
+                <img style="width: 30px; padding: 10px 10px;" src="img/shield.svg" />
+                <div class="armor">
+                </div>
+            </div>
+            <div class="health-holder">
+                <span class="percentage"></span>
+                <div class="viewport">
+                    <span class="health"></span>
+                </div>
+                <img style="width: 30px; padding: 13px 10px;" src="img/heart.svg" />
+                <div class="health">
+                </div>
+            </div>
+            <br>
+            <div class="jobs-holder" style="display:none;">
+                <div class="viewport">
+                    <span class="job"></span>
+                </div>
+                <img style="width: 120%;left:-10%;top:-10%;" src="https://api.iranroleplay.com/jobs/unemployed.png" />
+                <div class="job">
+                </div>
+                <div class="information playerJob">
+                    Unemployed | Unemployed
+                </div>
+            </div>
+            <br>
+            <div class="gangs-holder" style="display:none;">
+                <div class="viewport">
+                    <span class="gang"></span>
+                </div>
+                <img style="width: 120%;left:-10%;top:-10%;" src="https://api.iranroleplay.com/gangs/default.png" />
+                <div class="gang">
+                </div>
+                <div class="information playerGang">
+                    Nogang | Nogang
+                </div>
+            </div>
+        </div>
+        <div class="generalInformation">
+            <span class="playerName">Loading...</span>
+            <!-- <span class="playerTime">00:00</span> -->
+            <br>
+            <span class="playerGang">Loading...</span>
+            <span class="playerJob">Loading...</span>
+        </div>
+    </div>
+    </div>
+    <div class="aboveMinimap" style="bottom:-.3vh;right:.5vw;">
+        <div class="icons">
+            <div class="engine-holder" style="display:none;transform: scale(.9) rotate(-90deg);">
+                <span class="percentage" style="transform: rotate(90deg);left:35px"></span>
+                <div class="viewport">
+                    <span class="engine"></span>
+                </div>
+                <img style="width: 35px;padding: 20% 23%;" src="img/engine.png"></img>
+                <div class="engine"></div>
+            </div>
+            <div class="voice-holder" style="transform: scale(.9) rotate(-90deg);">
+                <span class="percentage radioFreq" style="transform: rotate(90deg);left: 20px;width: 80px;text-align:center"></span>
+                <div class="viewport">
+                    <span class="voice"></span>
+                </div>
+                <img class="voiceImage" style="width: 28px;padding: 11px 16px;transform: rotate(90deg);" src="img/voice1.png"></img>
+                <div class="voice"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="script.js" type="text/javascript"></script>
+
+</html>

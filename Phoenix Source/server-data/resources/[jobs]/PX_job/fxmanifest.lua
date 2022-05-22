@@ -1,0 +1,98 @@
+fx_version 'bodacious'
+game 'gta5'
+
+client_scripts {
+	'@Proxtended/locale.lua',
+	'locales/en.lua',
+	'ambulance/config.lua',
+	'ambulance/client/main.lua',
+	'ambulance/client/job.lua',
+	'ambulance/client/jafari.lua',
+	'ambulance/reqs/client.lua',
+	'ambulance/bodydamage/client/*.lua',
+	'dadgostari/config.lua',
+	'dadgostari/client/main.lua',
+	'mechanic/config.lua',
+	'mechanic/client/main.lua',
+	'police/config.lua',
+	'police/client/main.lua',
+	'taxi/config.lua',
+	'taxi/client/main.lua',
+	'weazel/config.lua',
+	'weazel/client/main.lua',
+	'casino/config.lua',
+  	'casino/client/main.lua',
+	"cafe/config.lua",
+	"cafe/client.lua",
+	'garbage/client.lua',
+	'lumberjack/config.lua',
+	'lumberjack/client/main.lua',
+	'mine/config.lua',
+    'mine/client.lua',
+	'recycle/client/main.lua',
+    'recycle/config.lua',
+	'duty/config.lua',
+  	'duty/client/main.lua',
+	'tracker/config.lua',
+    'tracker/client.lua',
+	'creator/config.lua',
+    'creator/client.lua',
+}
+
+server_scripts {
+	'@mysql-async/lib/MySQL.lua',
+	'@Proxtended/locale.lua',
+	'locales/en.lua',
+	'ambulance/config.lua',
+	'ambulance/server/main.lua',
+	'ambulance/reqs/server.lua',
+	'dadgostari/config.lua',
+	'dadgostari/server/main.lua',
+	'mechanic/config.lua',
+	'mechanic/server/main.lua',
+	'police/config.lua',
+	'police/server/main.lua',
+	'taxi/config.lua',
+	'taxi/server/main.lua',
+	'weazel/config.lua',
+	'weazel/server/main.lua',
+	'casino/config.lua',
+  	'casino/server/main.lua',
+	"cafe/config.lua",
+	"cafe/server.lua",
+	'garbage/server.lua',
+	'lumberjack/config.lua',
+	'lumberjack/server/main.lua',
+	'mine/config.lua',
+	'mine/server.lua',
+	'recycle/server/main.lua',
+    'recycle/config.lua',
+	'duty/config.lua',
+  	'duty/server/main.lua',
+	'tracker/config.lua',
+    'tracker/server.lua',
+}
+
+ui_page 'ambulance/bodydamage/html/index.html'
+
+files {
+	'ambulance/bodydamage/html/index.html',
+	'ambulance/bodydamage/html/css/*.css',
+	'ambulance/bodydamage/html/js/*.js',
+
+	'ambulance/bodydamage/html/img/*.png',
+
+	'ambulance/bodydamage/html/img/f/*.png',
+	'ambulance/bodydamage/html/img/f/bruises/*.png',
+	'ambulance/bodydamage/html/img/f/cuts/*.png',
+	'ambulance/bodydamage/html/img/f/punchs/*.png',
+	'ambulance/bodydamage/html/img/f/shots/*.png',
+
+	'ambulance/bodydamage/html/img/m/*.png',
+	'ambulance/bodydamage/html/img/m/bruises/*.png',
+	'ambulance/bodydamage/html/img/m/cuts/*.png',
+	'ambulance/bodydamage/html/img/m/punchs/*.png',
+	'ambulance/bodydamage/html/img/m/shots/*.png',
+}
+
+dependency 'Proxtended'

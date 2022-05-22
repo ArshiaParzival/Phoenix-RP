@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SInteriorOrderData>
+  <startFrom value="5120" />
+  <proxies>
+	<Item>pw-prison-lobby_milo_</Item>
+	<Item>pw-prison-armory_milo_</Item>
+	</proxies>
+</SInteriorOrderData>

@@ -1,0 +1,151 @@
+<html>
+	<head>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	</head>
+
+	<body onkeydown="TriggeredKey(this)">
+		<div class="dialog">
+			 <img id="logo" src="img/logo.png" height="335px"> 
+			<form id="register" name="register" action="#">
+	
+  <div class="tv-icono">
+	<i class="fa-solid fa-user icon"></i>
+    <input class="tv-text" type="text" placeholder="Firstname" id="firstname" name="firstname" onKeyDown="if(this.value.length==16 && event.keyCode!=8) return false;" onkeypress="if (isNumber(event) == true) return false;" onKeyUp="checkFirstName()" onmouseup="checkFirstName()"> 
+  </div>
+  
+  <div class="tv-icono">
+	<i class="fa-solid fa-user-check icon"></i>
+    <input class="tv-text" type="text" placeholder="Lastname" id="lastname" name="lastname" onKeyDown="if(this.value.length==16 && event.keyCode!=8) return false;" onkeypress="if (isNumber(event) == true) return false;" onKeyUp="checkLastName()" onmouseup="checkLastName()"> 
+  </div>
+  
+  <div class="tv-icono">
+	<i class="fa-solid fa-calendar-days icon"></i>
+    <input class="tv-text" type="text" placeholder="Date Of Birth" id="dateofbirth" name="dateofbirth" dateformat="d M y" min="01/01/1900" max="31/12/2020" onfocus="(this.type='date')" onkeypress="if ( isNaN(String.fromCharCode(event.keyCode) )) return false;" onchange="checkDOB()" onKeyUp="checkDOB()" onmouseup="checkDOB()"> 
+  </div>
+
+				<center>
+					<div class="radio-toolbar">
+						<input type="radio" id="radiom" name="sex" value="m" checked>
+						<label for="radiom"><i class="fa-solid fa-mars"></i> Male</label>
+					
+						<input type="radio" id="radiof" name="sex" value="f">
+						<label for="radiof"><i class="fa-solid fa-venus"></i> Female</label>
+					</div>
+				</center>
+				<button id="submit" type="submit"><font size="5px">Submit</font></button>
+			</form>
+		</div>
+		<script>
+		
+			var myFirstName = document.getElementById('firstname');
+			var myLastName = document.getElementById('lastname');
+			var myDOB = document.getElementById('dateofbirth');
+
+			function isNumber(e) {
+				var key=e.which || e.KeyCode;
+				if ( key >=48 && key <= 57) {
+					return true; 
+				}
+				else {
+					return false;
+				}
+			}
+
+			function checkFirstName() {
+				var value = myFirstName.value;
+				if(value.trim().match(/^[a-zA-Z][0-9a-zA-Z .,'-]*$/) == null) {
+					myFirstName.style.backgroundColor = '#ff1342';
+						myFirstName.style.color = 'white';
+				}
+				else {
+					if(value.length > 0 && value.length < 17) {
+					myFirstName.style.backgroundColor = '#FFFFFF';
+						myFirstName.style.color = 'black';
+					}
+					else {
+					myFirstName.style.backgroundColor = '#FFFFFF';
+						myFirstName.style.color = 'black';
+					}
+				}
+			}
+
+			function checkLastName() {
+				var value = myLastName.value;
+				if(value.trim().match(/^[a-zA-Z][0-9a-zA-Z .,'-]*$/) == null) {
+					myLastName.style.backgroundColor = '#ff1342';
+					myLastName.style.color = 'black';
+				}
+				else {
+					if(value.length > 0 && value.length < 17) {
+						myLastName.style.backgroundColor = '#FFFFFF';
+						myLastName.style.color = 'black';
+					}
+					else {
+						myLastName.style.backgroundColor = '#FFFFFF	';
+						myLastName.style.color = 'black';
+					}
+				}
+			}
+			
+			function checkDOB() {
+				var date = new Date($('#dateofbirth').val());
+				day = date.getDate();
+				month = date.getMonth() + 1;
+				year = date.getFullYear();
+				if (isNaN(month) || isNaN(day) || isNaN(year)) {
+					myDOB.style.backgroundColor = '#ff1342';
+					myDOB.style.color = 'white';
+				}
+				else {
+					var dateInput = [month, day, year].join('/');
+
+					var regExp = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
+					var dateArray = dateInput.match(regExp);
+
+					if (dateArray == null){
+						return false;
+					}
+
+					month = dateArray[1];
+					day= dateArray[3];
+					year = dateArray[5];        
+
+					if (month < 1 || month > 12){
+						myDOB.style.backgroundColor = '#ffffff2e';
+						myDOB.style.color = 'white';
+					}
+					else if (day < 1 || day> 31) { 
+						myDOB.style.backgroundColor = '#ffffff2e';
+						myDOB.style.color = 'white';
+					}
+					else if ((month==4 || month==6 || month==9 || month==11) && day ==31) {
+						myDOB.style.backgroundColor = '#ffffff2e';
+						myDOB.style.color = 'white';
+					}
+					else if (month == 2) {
+						var isLeapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+						if (day> 29 || (day ==29 && !isLeapYear)){
+							myDOB.style.backgroundColor = '#ffffff2e';
+							myDOB.style.color = 'white';
+						}
+					}
+					else {
+						myDOB.style.backgroundColor = '#ffffff2e';
+						myDOB.style.color = 'white';	
+					}				
+				}
+			}
+
+			function TriggeredKey(e) {
+				var keycode;
+				if (window.event) keycode = window.event.keyCode;
+				if (window.event.keyCode == 13 || window.event.keyCode == 27) return false;
+			}
+		</script>
+		<script src="js/script.js" type="text/javascript"></script>
+	</body>
+</html>

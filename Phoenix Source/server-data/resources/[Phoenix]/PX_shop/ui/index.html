@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phoenix Shop</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script src="nui://game/ui/jquery.js"></script>
+    <style type="text/css">
+        .auto-insurance {
+            height: 700px;
+            width: 340px;
+            box-shadow: 0 0 15px #000000;
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .header {
+            height: 50px;
+            width: 340px;
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 0 15px #000000;
+            background: radial-gradient(circle, #F93154, #be1919);
+            font-family: "Source Sans Pro";
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow:
+            -1px -1px 5px #0000006b,
+            1px -1px 5px #0000006b,
+            -1px 1px 5px #0000006b,
+            1px 1px 5px #0000006b,
+            -2px -2px 5px #0000006b,
+            2px -2px 5px #0000006b,
+            -2px 2px 5px #0000006b,
+            2px 2px 5px #0000006b;
+        }
+
+        .item {
+            height: 60px;
+            width: 340px;
+            background-color: #262626;
+            box-shadow: 0 0 15px #000000;
+            position: relative;
+            margin-bottom: 1px;
+        }
+
+        ::-webkit-scrollbar-button {
+            display: none;
+            height: 13px;
+            border-radius: 0px;
+            background-color: #525252;
+        }
+
+        ::-webkit-scrollbar-button:hover {
+            background-color: #525252;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #707070;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #707070;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #4e4e4e;
+        }
+
+        ::-webkit-scrollbar-track:hover {
+            background-color: #707070;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .footer {
+            height: 62px;
+            width: 340px;
+            border-radius: 0 0 4px 4px;
+            background-color: #262626;
+            box-shadow: 0 0 15px #000000;
+            position: absolute;
+            bottom: 0;
+            text-shadow:
+            -1px -1px 5px #0000006b,
+            1px -1px 5px #0000006b,
+            -1px 1px 5px #0000006b,
+            1px 1px 5px #0000006b,
+            -2px -2px 5px #0000006b,
+            2px -2px 5px #0000006b,
+            -2px 2px 5px #0000006b,
+            2px 2px 5px #0000006b;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-button {
+            height: 38px;
+            width: 308px;
+            background-color: #F93154;
+            position: absolute;
+            font-weight: bold;
+            color: #FBFBFB;
+            font-family: Helvetica;
+            font-size: 12px;
+            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+
+        .item .title {
+            color: #FBFBFB;
+            font-family: "Source Sans Pro";
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 20%;
+            top: 20%;
+        }
+
+        .item .price {
+            color: #FBFBFB;
+            font-family: "Source Sans Pro";
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 20%;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .retrieve-chop-button {
+            height: 24px;
+            width: 84px;
+            background-color: #DA5151;
+            left: 70%;
+            position: absolute;
+            top: 18px;
+        }
+
+        .retrieve-chop-button p {
+            color: #FBFBFB;
+            font-family: "Source Sans Pro";
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .policei-button {
+            height: 24px;
+            width: 84px;
+            background-color: #2d36b4;
+            left: 70%;
+            position: absolute;
+            top: 18px;
+        }
+
+        .retrieve-button {
+            height: 28px;
+            width: 55px;
+            background-color: #00B74A;
+            text-shadow:
+            -1px -1px 5px #0000006b,
+            1px -1px 5px #0000006b,
+            -1px 1px 5px #0000006b,
+            1px 1px 5px #0000006b,
+            -2px -2px 5px #0000006b,
+            2px -2px 5px #0000006b,
+            -2px 2px 5px #0000006b,
+            2px 2px 5px #0000006b;
+            left: 80%;
+            position: absolute;
+            top: 18px;
+        }
+
+        .retrieve-button p {
+            color: #FBFBFB;
+            background-color: #004e1f;
+            font-family: "Source Sans Pro";
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            color: #FBFBFB;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        button:active,
+        button:focus,
+        button:hover {
+            outline: none;
+            border: none;
+        }
+
+        .buttonDisabled {
+            pointer-events: none;
+            cursor: no-drop;
+            opacity: 0.7;
+        }
+
+        * {
+            user-select: none;
+        }
+        .quantity { 
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            height: 24px;
+            width: 40px;
+            text-align: center;
+            left: 65%;
+            position: absolute;
+            top: 18.5px;
+            border: 1px solid #3e3e3e;
+            padding-left: 10px;
+        }
+        .quantity:focus { 
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auto-insurance"
+        style="top: 50vh; transform: translateY(-50%); float: right; right: 10%; display: none;">
+        <div class="header center">
+            <div id="uiTitle" style="color: #FBFBFB;">Shop #<span class="shopNumber">0</span></div>
+        </div>
+        <div id="carsConteiner" style="overflow-y: scroll; height: 588px; overflow-x: hidden; background-color: #262626;">
+        </div>
+        <div id="item-template" style="display: none;">
+            <div class="item">
+                <div class="title">{{label}}</div>
+                <img src="nui://PX_inventory/html/images/{{name}}.png" style="margin-left:2%;width: 50px;height: 50px;object-fit: contain;" alt="">
+                <small class="price">
+                    <span><span style="color:#00B74A;font-weight: bold;">$ {{price}}</span></span>
+                    <span style="display: block;">{{stock}}</span>
+                </small>
+                <input type="number" style="background-color: #616161; color: #FBFBFB;text-shadow:-1px -1px 5px #0000006b,1px -1px 5px #0000006b,-1px 1px 5px #0000006b,1px 1px 5px #0000006b,-2px -2px 5px #0000006b,2px -2px 5px #0000006b,-2px 2px 5px #0000006b,2px 2px 5px #0000006b;" min="1" value="1" max="50" class="quantity">
+                <button href="#" onclick="buyItem('{{name}}',$(this).parent().find('.quantity').val())" class="retrieve-button center">
+                    <small>BUY</small>
+                </button>
+            </div>
+        </div>
+        <div class="footer center">
+            <a id="uiExit" href="#" onclick="Exit()" class="main-button center">CLOSE</a>
+        </div>
+    </div>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

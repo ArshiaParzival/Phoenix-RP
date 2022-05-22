@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>پنل آسان</title>
+	<link rel="shortcut icon" type="image/png" href="https://see5.net/favicon.png">
+
+	<link rel="stylesheet" href="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/css/component.css" />
+	    <link rel="stylesheet" href="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/css/nprogress.css">
+
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/modernizr-custom.js"></script>
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/sweetalert2@9.js"></script>
+	    <script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/nprogress.js"></script>
+
+	<script>
+		var main_url			= "http://m8419m.ux5.ir";
+		var main_page			= main_url + "/?brizy-edit";
+		var menu_page			= main_url + "/wp-admin/nav-menus.php";
+		var pages_page			= main_url + "/wp-admin/edit.php?post_type=page";
+		var posts_page			= main_url + "/wp-admin/edit.php?post_type=post";
+		var footer_setting      =  "http://m8419m.ux5.ir/?post_type=post&p=5079?brizy-edit";
+		var header_setting      = main_url +  "/wp-admin/admin.php?page=woodmart_dashboard&tab=builder#/builder/header_";
+		var sidebar_setting     = main_url + "/wp-admin/post.php?vc_action=vc_inline&post_id=999999999&post_type=cms_block";
+		var wodmart_social_link = main_url + "/wp-admin/admin.php?page=xtemos_options&tab=social_links";
+		/************************************************************************************/
+		/*                              woo                                                 */
+		var coupon_page	        = main_url + "/wp-admin/edit.php?post_type=shop_coupon";
+		var prodocts_cat_pages	= main_url + "/wp-admin/edit-tags.php?taxonomy=product_cat&post_type=product";
+		var add_prodoct_page	= main_url + "/wp-admin/post-new.php?post_type=product";
+		var prodocts_page 		= main_url + "/wp-admin/edit.php?post_type=product";
+		var woo_seting_page 	= main_url + "/wp-admin/admin.php?page=wc-settings";
+		var list_order_page		= main_url + "/wp-admin/edit.php?post_type=shop_order";
+		var product_attributes  = main_url + "/wp-admin/edit.php?post_type=product&page=product_attributes";
+		var customers_page      = main_url + "/wp-admin/admin.php?page=wc-admin&path=%2Fcustomers";
+        var reports_page        = main_url + "/wp-admin/admin.php?page=wc-reports";
+        var state_page          = main_url + "/wp-admin/admin.php?page=wc-admin";
+		//var list_order_page		= main_url + "/wp-admin/edit.php?post_type=shop_order";
+		/************************************************************************************/
+		/*								add											   */
+		var add_page_page	   = main_url + "/wp-admin/post-new.php?post_type=page";
+		var add_post_page	   = main_url + "/wp-admin/post-new.php";
+		var add_media_page	  = main_url + "/wp-admin/media-new.php";
+		var pwa_setting_page  = main_url +"/wp-admin/admin.php?page=superpwa" ;
+		var add_project_page	= main_url + "/wp-admin/post-new.php?post_type=portfolio";
+        var color_setting_page= main_url + "/wp-admin/admin.php?page=xtemos_options&tab=colors_section";
+		/***********************************************************************************/
+		/************************************************************************************/
+		/*								videos											*/
+		var videos = {
+			'main_page':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'pages_page':'https://www.w3schools.com/tags/movie.mp4',
+			'prodocts_cat_pages':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'add_prodoct_page':'https://www.w3schools.com/tags/movie.mp4',
+			'prodocts_page':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'list_order_page':'https://www.w3schools.com/tags/movie.mp4',
+			'add_page_page':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'add_post_page':'https://www.w3schools.com/tags/movie.mp4',
+			'add_media_page':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'add_coupon_page':'https://www.w3schools.com/tags/movie.mp4',
+			'add_project_page':'https://www.w3schools.com/html/mov_bbb.mp4',
+			'woo_seting_page': '',
+			'wodmart_social_link' : '',
+			'product_attributes' : ''
+		};
+			function hide_loading()
+	{
+	 
+	 document.getElementById("loading_iframe").style.visibility = "hidden";
+        NProgress.done();
+
+	}
+
+function open_moshvere_url()
+{
+	window.open("https://see5.net/?utm_source=demo&utm_content="+main_url.replace("http://",""),"_blank	");
+}
+
+	</script>
+</head>
+
+<body class="rtl">
+	<!-- Main container -->
+	<div class="see5menu_container">
+		<div class="see5menu_drwer">
+			
+			<nav id="see5menu" class="see5menu">
+			<button class="see5menu_swicher">
+				<span id="sidebar_btn_close" class="ion-android-arrow-dropright" ></span>
+			</button>
+				<button class="action action--close" aria-label="Close Menu">
+					<span class="material-icons">menu</span>
+				</button>
+				<div class="menu__wrap">
+					<ul data-menu="main" class="menu__level multi_link_see5" tabindex="-1" role="menu" aria-label="همه">
+						<li>
+							<video class="main_video_lern" controls  preload="none" >
+								<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+							</video>
+						</li>
+							<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(main_page,videos['main_page'])">
+							<a class="menu__link ion-ios-home-outline" href="#">
+								 ویرایش خانه
+							</a>
+							</li>
+						<li class="menu__item see5_first_menu force_open_side" role="menuitem">
+							<a class="menu__link ion-ios-basketball-outline" data-submenu="update_title_des" aria-owns="update_title_des" href="#">
+							    لوگو
+							</a>
+						</li>
+						
+						
+					 
+						</li>
+						
+												<li class="menu__item see5_first_menu" role="menuitem"  onclick="change_iframe_url(add_prodoct_page,videos['add_prodoct_page'])">
+							<a class="menu__link ion-ios-plus-outline" href="#">
+							    <span> محصول						    </span>
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-bag" data-submenu="setting_shop_pages"  aria-owns="setting_shop_pages" href="#">
+								فروشگاه
+							</a>
+						</li>
+												<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-ios-copy-outline" data-submenu="other_page"  aria-owns="other_page" href="#">
+								 صفحات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-ios-gear-outline" data-submenu="setting_pages"  aria-owns="setting_pages" href="#">
+								تنظیمات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-ios-toggle-outline" data-submenu="wpadmin"  aria-owns="wpadmin" target="_blank" href="/wp-admin">
+								داشبورد  
+							</a>
+						</li>						
+						<li
+							style="width:100%; border-top: solid 1px #bbb;border-bottom: solid 1px #a5a5a5;"
+						></li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="">
+							<a class="menu__link ion-ios-medkit-outline" data-submenu="support_options" aria-owns="support_options" href="#">
+								پشتیبانی
+							</a>
+						</li>
+						
+				 
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(main_url)">
+							<a class="menu__link ion-ios-eye-outline" href="#">
+								 نمایش 
+							</a>
+						</li>
+						
+<li class="menu__item see5_first_menu moshavere" role="menuitem" onclick="open_moshvere_url();">
+							<a class="menu__link ion-ios-telephone" href="#">
+								 چت زنده
+							</a>
+						</li>
+					</ul>
+					<!-- update_title_des-->
+					<ul data-menu="update_title_des" id="update_title_des" class="menu__level" tabindex="-1" role="menu" aria-label="عنوان و توضیحات">
+						<li>
+							<video class="main_video_lern" controls  preload="none" >
+								<source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+							</video>
+						</li>
+						<li  class="menu__item" role="menuitem">
+						    <form id="frm_logo_title">
+    							<div class="custom-file">
+    								<input type="file" class="custom-file-input"name="logo">
+    								<label class="custom-file-label" for="customFile">لوگو</label>
+    							</div>
+    							<br/><br/>
+    							<div class="custom-file">
+    								<input type="file" class="custom-file-input" name="favicon">
+    								<label class="custom-file-label"  for="customFile">فیو آیکون</label>
+    							</div>
+    							<br/><br/>
+    							<label>عنوان سایت</label>
+    							<input id="see5panel_blogname" name="title" type="text" class="form-control form-control-sm" value="m8419m" placeholder="عنوان">
+    							<br/>
+   							<label> توضیحات سایت </label>    							
+    							<textarea id="see5panel_blogdescription" name="description" class="form-control" rows="3" placeholder="توضیحات">m8419m</textarea>
+    							<input name="action" value="logo_titles" type="hidden">
+    							<button  type="button" class="btn btn-primary  btn-sm" onclick="update_title_des();">ذخیره</button>
+                            </form>
+                            <script>
+                                function update_title_des(){
+                                    Swal.fire({
+  title: 'لطفا کمی صبر کنید...',
+  html: '',
+  timer: 500000,
+  timerProgressBar: true,
+  onBeforeOpen: () => {
+    Swal.showLoading()
+  }
+  });
+                                      fetch(
+                                    	main_url+"/easypanel/advanceapi/",{
+                                    		method: 'POST',
+                                    		cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                                            body: new FormData(frm_logo_title)
+                                    	}
+                                    ).then(function(response) {
+                                    	return response.text();
+                                    }).then(function(body) {
+                                        if(body=="error")
+                                        {
+                                     
+                                        Swal.fire({
+                                    		text: "عنوان و توضیحات ضروری است",
+                                    		icon: 'error',
+                                    		confirmButtonText: 'بله',
+                                     		showCloseButton: true
+                                    	})
+                                    	
+                                            return;
+                                        }
+                                    	Swal.fire({
+                                    		text: "با موفقیت انجام شد.",
+                                    		icon: 'success',
+                                    		confirmButtonText: 'بله',
+                                     		showCloseButton: true
+                                    	})
+                                	document.querySelector(".menu__breadcrumbs a:first-child").click();
+document.getElementById("frm_logo_title").reset();
+
+                                    	change_iframe_url(main_url);
+                                    });
+                                }
+                            </script>
+						<li>
+					</ul>
+					<!-- update_slider -->
+					<ul data-menu="update_slider" id="update_slider" class="menu__level" tabindex="-1" role="menu" aria-label="اسلایدر">
+						<li>
+							<video class="main_video_lern" controls  preload="none" >
+								<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+							</video>
+						</li>
+						<li  class="menu__item" role="menuitem">
+						    
+						    <form id="frm_update_slider">
+						        
+						            							<input name="action" value="update_slider" type="hidden">
+    							<button  type="button" class="btn btn-primary  btn-sm" onclick="update_slider();">ذخیره</button>
+    							
+    						</form>
+    						<script>
+
+
+const cbox = document.querySelectorAll(".slide-files");
+
+for (let i = 0; i < cbox.length; i++) {
+	cbox[i].addEventListener("change", function(e) {
+		var size_mg=parseInt(e.target.files[0].size/(1024));
+		 var q=1;
+		 //console.log(size_mg);
+
+	/*	 if(size_mg>100)
+		 {
+			q=(1/size_mg)*100;
+		 }
+		 */
+		 
+	//	 if(size_mg>1024)
+	//	 {
+			q=(200/size_mg);
+//}
+		 //console.log(q);
+
+		new Compressor(e.target.files[0], {
+    quality: q,
+    success(result) {
+ 
+         //form_slider.set(e.target.getAttribute('name'),result);
+        //console.log(result);
+		//console.log("compressed");
+	//	//console.log(form_slider.get(e.target.getAttribute('name')));
+
+		var hidden_elem = document.getElementsByName(e.target.getAttribute('name'));
+hidden_elem[0].files[0] = result;
+
+  hidden_elem = document.getElementsByName(e.target.getAttribute('name'));
+  //console.log(hidden_elem[0]);
+  hidden_elem[0].alt = "red";
+
+      },     
+
+    error(err) {
+      //console.log(err.message);
+    },
+  });
+	});
+}
+	    
+
+                                function update_slider(){
+                                    
+                                                                        Swal.fire({
+  title: 'لطفا کمی صبر کنید...',
+  html: '',
+  timer: 500000,
+  timerProgressBar: true,
+  allowOutsideClick: false ,
+
+  onBeforeOpen: () => {
+    Swal.showLoading()
+  }
+  });
+
+
+
+  var form_slider = new FormData(frm_update_slider);
+
+                                    fetch(
+                                    	main_url+"/easypanel/advanceapi/",{
+                                    		method: 'POST',
+                                    		cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                                            body: form_slider,
+                                    	}
+                                    ).then(function(response) {
+                                    	return response.text();
+                                    }).then(function(body) {
+                                     Swal.fire({
+                                    		text: "با موفقیت انجام شد.",
+                                    		icon: 'success',
+                                    		confirmButtonText: 'بله',
+                                     		showCloseButton: true
+                                    	})
+                                 
+                                 document.querySelector(".menu__breadcrumbs a:first-child").click();
+
+                                     	change_iframe_url(main_url);
+document.getElementById("frm_update_slider").reset();
+
+
+                                    });
+                                }
+                            </script>
+						<li>
+					</ul>
+					<!-- setting_pages -->
+					<ul data-menu="setting_pages" id="setting_pages" class="menu__level" tabindex="-1" role="menu" aria-label="تنظیمات">
+					
+						<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-ios-people" onclick="change_iframe_url(wodmart_social_link,videos['wodmart_social_link']);" href="#">
+							     اجتماعی
+						    </a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(menu_page,videos['menu_page'])">
+							<a class="menu__link ion-android-menu" href="#">
+								منو 
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(header_setting)">
+							<a class="menu__link ion-ios-compose-outline" href="#">
+								سربرگ
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(footer_setting)">
+							<a class="menu__link ion-ios-compose-outline" href="#">
+								پاورقی
+							</a>
+						</li>						
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(sidebar_setting)">
+							<a class="menu__link ion-ios-flag-outline" href="#">
+								سایدبار
+							</a>
+						</li>
+                        <li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(add_media_page)">
+							<a class="menu__link ion-ios-cloud-upload-outline" href="#">
+								فایل
+							</a>
+						</li>
+                        <li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(pwa_setting_page)">
+							<a class="menu__link ion-android-phone-portrait" href="#">
+                            وب اپ
+ 							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(color_setting_page)">
+							<a class="menu__link menu__link ion-android-color-palette" href="#">
+                            رنگ ها
+ 							</a>
+						</li>
+					</ul>
+					<!-- setting_shop_pages -->
+					<ul data-menu="setting_shop_pages" id="setting_shop_pages" class="menu__level" tabindex="-1" role="menu" aria-label="تنظیمات">
+						<li class="menu__item see5_first_menu" role="menuitem"  onclick="change_iframe_url(prodocts_page)">
+							<a class="menu__link ion-ios-list-outline" href="#">
+								 محصولات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem"  onclick="change_iframe_url(prodocts_cat_pages)">
+							<a class="menu__link ion-ios-keypad-outline" href="#">
+								دسته بندی
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-settings" onclick="change_iframe_url(woo_seting_page)" href="#">
+								فروشگاه
+							</a>
+						</li>
+						
+						<li class="menu__item see5_first_menu" role="menuitem"  onclick="change_iframe_url(product_attributes)">
+							<a class="menu__link ion-code-working" href="#">
+								ویژگی محصولات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(list_order_page)">
+							<a class="menu__link ion-ios-cart-outline" href="#">
+								لیست سفارشات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(coupon_page)">
+							<a class="menu__link ion-ios-pricetags-outline" href="#">
+								کد تخفیف
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(customers_page)">
+							<a class="menu__link ion-ios-people-outline" href="#">
+								مشتریان
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(reports_page)">
+							<a class="menu__link ion-ios-pie-outline" href="#">
+								گزارشات
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(state_page)">
+							<a class="menu__link ion-ios-analytics-outline" href="#">
+								وضعیت کلی
+							</a>
+						</li>
+					</ul>
+					<!-- other_page -->
+					<ul data-menu="other_page" id="other_page" class="menu__level" tabindex="-1" role="menu" aria-label="افزودن">
+					    <li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(pages_page)">
+							<a class="menu__link ion-ios-copy-outline" href="#">
+								برگه ها
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(posts_page)">
+							<a class="menu__link ion-ios-bookmarks-outline" href="#">
+								نوشته ها
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(add_page_page)">
+							<a class="menu__link ion-document" href="#">
+								افزودن برگه
+							</a>
+						</li>
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url(add_post_page)">
+							<a class="menu__link ion-edit" href="#">
+								افزودن نوشته
+							</a>
+						</li>
+					</ul>
+				
+				
+				<ul data-menu="support_options" id="support_options" class="menu__level" tabindex="-1" role="menu">
+					    <li class="menu__item see5_first_menu" role="menuitem" style="animation-delay: 160ms;">
+							<a class="menu__link ion-android-person"  href="https://crm.see5.ir/clientarea.php"  target="_blank"  data-submenu="clientarea" aria-owns="clientarea" href="#" dideo-checked="true">
+								ناحیه کاربری
+							</a>
+						</li>
+					    <li class="menu__item see5_first_menu" role="menuitem" style="animation-delay: 140ms;">
+							<a class="menu__link ion-android-textsms" href="https://crm.see5.ir/supporttickets.php" target="_blank" data-submenu="supporttiket" aria-owns="supporttiket" dideo-checked="true">
+								درخواست پشتیبانی
+							</a>
+						</li>
+				<!--	    <li class="menu__item see5_first_menu" role="menuitem">
+							<a class="menu__link ion-android-refresh" data-submenu="backup_restore" aria-owns="backup_restore" href="#">
+								بک آپ ها
+							</a>
+						</li>-->
+						<li class="menu__item see5_first_menu" role="menuitem" onclick="change_iframe_url('http://see5.ir/help')" style="animation-delay: 120ms;">
+							<a class="menu__link ion-ios-folder-outline" href="#" dideo-checked="true">
+						        پایگاه دانش
+							</a>
+						</li>
+					</ul>
+					<!-- -------------------------------------------------------------------
+					---------------------------- back up -----------------------------------
+					-------------------------------------------------------------------- -->
+					<!-- backup_restore-->
+					<ul data-menu="backup_restore" id="backup_restore" class="menu__level" tabindex="-1" role="menu" aria-label="عنوان و توضیحات">
+						<li>
+							<video class="main_video_lern" controls  preload="none" >
+								<source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+							</video>
+						</li>
+						<li  class="menu__item" role="menuitem">
+							<br/>
+							<div class="card">
+								<div class="card-header">
+									بک آپ های موجود سایت شما:
+								</div>
+								<table class="card-body table table-borderless table-sm" style="text-align: center;margin-top:20px;">
+									<tbody>
+										<tr>
+											<th scope="row">1</th>
+											<td>تاریخ</td>
+											<td>1398/2/1</td>
+											<td>
+												<button type="button" class="btn btn-primary  btn-sm" onclick="restore_back_up()">بازیابی</button>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">2</th>
+											<td>تاریخ</td>
+											<td>1398/1/5</td>
+											<td>
+												<button type="button" class="btn btn-primary  btn-sm" onclick="restore_back_up()">بازیابی</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<script>
+								function restore_back_up(){
+									Swal.fire({
+										title: 'آیا از بازیابی بک آپ مطمئن هستید؟',
+										text: 'با بازیابی بک آپ سفارشات شما به تاریخ انتخاب شده برمیگردد.',
+										icon: 'error',
+										iconHtml: '؟',
+										confirmButtonText: 'بله',
+										cancelButtonText: 'خیر',
+										showCancelButton: true,
+										showCloseButton: true
+									})
+								}
+							</script>
+						<li>
+					    <li class="menu__item"></li>
+					</ul>
+					<!-- support_tiket -->
+					<ul data-menu="support_tiket" id="support_tiket" class="menu__level" tabindex="-1" role="menu" aria-label="عنوان و توضیحات">
+						<li>
+							<video class="main_video_lern" controls  preload="none" >
+								<source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+							</video>
+						</li>
+						<li  class="menu__item" role="menuitem">
+							<p>برای پشتیبانی لطفا شماره همراه خود را در فیلد پایین وارد کنید.</p>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">
+										<span class="material-icons">perm_device_information</span>
+									</span>
+								</div>
+								<input type="text" class="form-control" placeholder="شماره همراه" aria-label="Username" aria-describedby="basic-addon1">
+							</div>
+							<div>
+								<button type="button" class="btn btn-primary  btn-sm" onclick="get_support_code()">دریافت رمز</button>
+							</div>
+							<script>
+								function get_support_code(){
+									Swal.fire({
+										title: 'لطفا کد تایید خود را وارد کنید',
+										input: 'text',
+										inputAttributes: {
+										autocapitalize: 'off'
+										},
+										showCancelButton: true,
+										confirmButtonText: 'ارسال',
+										cancelButtonText: 'انصراف',
+										showLoaderOnConfirm: true,
+										preConfirm: (login) => {
+											return fetch(`//api.github.com/users/${login}`)
+											.then(response => {
+											if (!response.ok) {
+											throw new Error(response.statusText)
+											}
+											return response.json()
+											})
+											.catch(error => {
+											Swal.showValidationMessage(
+											`Request failed: ${error}`
+											)
+											})
+										},
+										allowOutsideClick: () => !Swal.isLoading()
+									}).then((result) => {
+										if (result.value) {
+										Swal.fire({
+										title: `${result.value.login}'s avatar`,
+										imageUrl: result.value.avatar_url
+										})
+										}
+									})
+								}
+							</script>
+						<li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div class="content">
+		    <div id="loading_iframe" style="
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 99999;
+    position: absolute;
+    background-image: url(http://m8419m.ux5.ir/wp-content/plugins/see5_plugin//img/826.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+    display:none;
+"></div>
+			<iframe id="see5_live_show"
+				style="
+					border:none;
+					position: absolute;
+					top:0;
+					right: 0;
+					width: 100%;
+					height: 100vh;
+					
+				"  onload="hide_loading()" ></iframe>
+		</div>
+	</div>
+	<style>
+	    .main_video_lern
+	    {
+	        display:none !important;
+	    }
+	</style>
+	<!-- /view -->
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/compressor.min.js"></script>
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/classie.js"></script>
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/dummydata.js"></script>
+	<script src="http://m8419m.ux5.ir/wp-content/plugins/see5_plugin/assets/advance/js/main.js"></script>
+	<script>
+	    document.getElementById("loading_iframe").style.visibility = "visible";
+var iframe=	    document.getElementById("see5_live_show") ;
+
+
+iframe.contentWindow.onunload=function ()
+{
+    
+    //console.log("un-load");
+       NProgress.start(); // start
+        NProgress.inc(); // To increment the progress bar, just use .inc(). This increments it with a random amount. This will never get to 100%: use it for every image load (or similar).If you want to increment by a specific value, you can pass that as a parameter
+        NProgress.configure({
+            ease: 'ease',
+            speed: 500
+        }); // Adjust animation settings using easing (a CSS easing string) and speed (in ms). (default: ease and 200)
+        NProgress.configure({
+            trickleSpeed: 800
+        }); //Adjust how often to trickle/increment, in ms.
+        NProgress.configure({
+            showSpinner: false
+        }); //Turn off loading spinner by setting it to false. (default: true)
+
+    
+}
+ 
+
+	document.getElementById("see5_live_show").src = main_url;
+	
+	var btns_menu = document.querySelectorAll(".see5_first_menu");
+	for (var i = btns_menu.length - 1; i >= 0; i--) {
+     	btns_menu[i].addEventListener('click' ,  (e) => {
+
+     	           
+    	      
+    	        
+           
+    	       if(e.currentTarget.classList.contains('force_open_side') )
+    	       {
+    	                   			var bd = document.querySelector('body');
+
+    	           var side_btn=document.getElementById("sidebar_btn_close");
+    	           
+    	           side_btn.classList.remove('ion-android-arrow-dropleft');  
+                   side_btn.classList.add('ion-android-arrow-dropright');
+
+                   bd.classList.remove('side_close');
+ 
+    	       }
+    	   
+    	    
+    	   	var btns_menu = document.querySelectorAll(".see5_first_menu");
+	for (var j = btns_menu.length - 1; j >= 0; j--) {
+
+	      btns_menu[j].classList.remove('see5_active_menu');
+	}
+
+            e.currentTarget.classList.add('see5_active_menu');
+        });
+    }
+    
+    
+    
+    document.getElementById("sidebar_btn_close").addEventListener('click' ,  (e) => {
+   
+        	var bd = document.querySelector('body');
+
+ 
+            if(e.target.classList.contains('ion-android-arrow-dropright'))
+            {
+                e.target.classList.remove('ion-android-arrow-dropright');
+      e.target.classList.add('ion-android-arrow-dropleft');  
+            bd.classList.add('side_close');
+
+            }
+            else
+            {
+      e.target.classList.remove('ion-android-arrow-dropleft');  
+           e.target.classList.add('ion-android-arrow-dropright');
+
+      bd.classList.remove('side_close');
+
+
+            }
+    
+      
+      
+        
+    });
+    
+    var lis = document.querySelectorAll('li.menu__item.see5_first_menu a');
+
+[].forEach.call(lis, function(li) {
+  // do whatever
+  //li.title = "test";
+});
+
+
+/*	document.getElementById('1').onclick
+	(function() {*/
+		var menuEl = document.getElementById('see5menu'),
+		mlmenu = new MLMenu(menuEl, {
+			// breadcrumbsCtrl : true, // show breadcrumbs
+			initialBreadcrumb : 'منو اصلی', // initial breadcrumb text
+			backCtrl : true, // show back button
+			itemsDelayInterval : 20, // delay between each menu item sliding animation
+			//onItemClick: loadDummyData // callback: item that doesn´t have a submenu gets clicked - onItemClick([event], [inner HTML of the clicked item])
+		});
+	
+	
+	 function close_side_force()
+	 {
+	      if( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 700 ) )
+		 {
+          
+
+
+
+
+document.querySelector("#sidebar_btn_close").click();
+
+       
+      
+        
+		 }
+	 }
+		function change_iframe_url(change_url,video_url = ""){
+	    
+	    close_side_force();
+ 
+		 swal.close();
+ 	    
+        NProgress.start(); // start
+        NProgress.inc(); // To increment the progress bar, just use .inc(). This increments it with a random amount. This will never get to 100%: use it for every image load (or similar).If you want to increment by a specific value, you can pass that as a parameter
+        NProgress.configure({
+            ease: 'ease',
+            speed: 500
+        }); // Adjust animation settings using easing (a CSS easing string) and speed (in ms). (default: ease and 200)
+        NProgress.configure({
+            trickleSpeed: 800
+        }); //Adjust how often to trickle/increment, in ms.
+        NProgress.configure({
+            showSpinner: false
+        }); //Turn off loading spinner by setting it to false. (default: true)
+
+        //console.log("start");
+        
+        
+
+	     
+	    
+		if(video_url != "" && false){
+			var video = document.querySelector('.main_video_lern');
+			var sources = video.getElementsByTagName('source');
+			sources[0].src = video_url;
+			video.load();
+		}
+	
+		document.getElementById("see5_live_show").src = change_url;
+		
+	}
+	
+
+	</script>
+</body>
+
+</html>

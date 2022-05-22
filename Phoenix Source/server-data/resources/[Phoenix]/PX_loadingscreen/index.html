@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/><title>LoadingScreen</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300" rel="stylesheet">
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css'>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<meta charset=utf-8>
+	<title>Phoenix RP</title>
+	<meta content="" name=description>
+	<meta content="" name=testimonials-signature>
+	<meta content="" name=keywords>
+	<meta content="height=device-height,width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" name=viewport>
+	<link href=css/plugins.min.css rel=stylesheet media=all>
+	<link href=css/style.min.css rel=stylesheet media=all>
+	<link href=css/fontawesome-all.min.css rel=stylesheet>
+	<link href=css/style-city.min.css rel=stylesheet media=all>
+	<link href="http://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900%7COswald:300,400,700%7CDosis:200,300,400,500,600,700,800" rel=stylesheet>
+</head>
+<body>
+	<div id=cursor>
+		<div id=circle></div>
+	</div>
+	<div id=loader>
+		<div class=loaderDynamic>
+			<div class=loaderStatic></div>
+		</div>
+	</div>
+	<div class=homeSlides id=contentOT>
+		<div class="border-top top-position">
+			<div class="menu-mobile-btn-waits menu-trigger" id=menu-mobile-btn></div>
+		</div>
+		<div class="current upper-page" id=home>
+			<div class="border-bottom bottom-position"></div>
+			<ul id=slidePositionIndicator>
+				<li class='positionIndicator {number: "1"} active' id=indicator1>
+					<div class=positionIndicatorLine></div>
+			</ul>
+			<div id=slides>
+				<div class="slide active" id=slide1>
+					<div class=homeSlide>
+						<div class=center-container-home-waits>
+							<p id="toggle-text" style="
+								color: #ffffff;
+								text-align: top;
+								position: absolute;
+								margin-left: 45%;
+								margin-top: 1.1vh;
+								padding: 0 0.1vh 0 0.1vh;
+								font-size: 16px;
+								font-family: inherit;
+							"> 𝘗𝘳𝘦𝘴𝘴 <span class="space-key">𝘚𝘗𝘈𝘊𝘌</span>  𝘛𝘰 𝘚𝘵𝘰𝘱 𝘔𝘶𝘴𝘪𝘤</p>
+							<div class=borders></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div id="bg_alt"></div>
+		<div class="videogrid" id="bg"></div>
+				
+		<video id="videobg" autoplay loop muted>
+			<source src="background.mp4" type="video/mp4">
+		</video>
+					
+		<div id="logo"></div>
+		<div class="logo-alt" id="logo-alt"></div>
+		
+		<canvas id="fumo"></canvas>
+		<canvas id="app"></canvas>
+		
+		<div class="footer" id="fix_box" style="border: 2px solid #ffffff; color:#ffffff">
+			<div id="loader">
+			  <div id="spinner"><i class="fa fa-spinner fa-pulse fa-fw"></i></div>
+			  <h2 id="loading-text" style="color: #ffffff;"><div id="txt-load"></div></h2>
+			  <br>			  
+			</div>
+			<div id="discord"></div>			
+		</div>	
+	
+		<div class="musica" id="fix_box1" style="border: 2px solid #ffffff; color:#ffffff">
+			<div id="txt-play"></div>	
+			<div class="row" style="font-size:2em;">
+			  <div class="column">
+				<div id="avvio" data-info="1" ><i class="far fa-pause-circle"></i></div>
+			  </div>
+			  <div class="column">
+				<i class="fas fa-headphones-alt"></i>  <input type="range" id="volume" min="0" max="1" step="0.01" value="1" />
+			  </div>
+			</div>
+		</div>
+<audio id="lesson" src="audio1.ogg" autoplay="false" hidden="true" loop="true"/>
+  <script>
+
+  var play = true;
+  var myAudio = document.getElementById("lesson");
+  
+  myAudio.volume = 0.5;
+
+
+  function onKeyDown(event) {
+          switch (event.keyCode) {
+              case 32:            
+                  if (play) {
+                      myAudio.pause();
+                      play = false;
+                  } else {
+                      myAudio.play();
+                      play = true;
+                  }
+                  break;
+          }
+    return false;
+  }
+
+  window.addEventListener("keydown", onKeyDown, false);
+  </script>
+			
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>			
+		<script src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js'></script>
+		<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/bas.js'></script>
+		<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/175711/OrbitControls-2.js'></script>
+		<script src="settings.js"></script>
+		<script src="app.js"></script>
+		<script src="smoke.js"></script>
+		<script src="logo.js"></script>
+		<script src="player.js"></script>
+	</body>
+</html>
+
+

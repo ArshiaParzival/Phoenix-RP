@@ -1,0 +1,27 @@
+body {
+  background-color: #222;
+  color: #fff false;
+}
+.console {
+  padding: 15px;
+  font-family: Consolas;
+  color: #fff;
+}
+.console .line {
+  margin-bottom: 5px;
+}
+.console .command {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  width: 90%;
+  outline: none;
+  box-shadow: none;
+  padding: 0;
+}
+.green {
+  color: #90ee90;
+}
+.yellow {
+  color: #ff0;
+}
