@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">
-      Phoenix Server Source Code
+      💛 Phoenix Server Source Code 💛
   </h1>
   <h3 align="center">
      Version 1.0.0
