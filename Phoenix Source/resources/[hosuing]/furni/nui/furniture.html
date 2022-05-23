@@ -1,0 +1,2693 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Furniture</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google" content="notranslate">
+    <style>
+      /*main*/
+      * {
+        font-family: Arial, sans-serif;
+        font-size: 11pt; 
+        margin: 0;
+        padding: 0;
+      }
+      *, ::after, ::before {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        touch-action: manipulation;
+      }
+      body {
+        position: relative;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+      input:focus {
+        outline: none;
+      }
+      button {
+        cursor: pointer;
+        border:none; 
+        padding: 0;
+        margin: 0;
+        outline:none;
+      }
+      .off {
+        -display: none !important;
+        position: absolute !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        -transition: visibility 0s 2s, opacity 2s linear;
+        border-top: 0px solid rgba(0, 0, 0, 0) !important;
+        -transform: none !important;
+        box-shadow: none !important;
+      }
+      .content {
+        --min-height: calc( 100vh - 150px );
+      }
+
+      .root {
+        position: absolute;
+        top: 200px;
+        left: 20px;
+        display: flex;
+        flex-direction: row;     
+        opacity: 0;
+      }
+      .moving {
+   
+        cursor: move;
+      }
+      .maintext {
+        font-size:22pt;
+        color:#f2f2f2;
+        font-weight: bold;
+        padding: 2px 10px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in;
+        text-shadow: 2px 2px 2px #00000047;
+      }
+      .furni_mainbutton {     
+        width: 48px;
+        height: 48px;
+        background-color: #ffc231;
+        border-radius: 50%;
+        transition: border-radius 0.36s ease, transform 0.27s ease-in, box-shadow 0.36s ease-in;
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 2px 2px 2px #00000047;
+      }
+      .furni_mainbutton:hover {
+        background-color: #dba62a; 
+      }
+      .closebutton {
+        width: 48px;
+        height: 48px;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        transition: background-color 0.45s ease-in, border-radius 0.36s ease, transform 0.27s ease-in, box-shadow 0.36s ease-in;
+      }
+      .closebutton:hover {
+        background-color: rgb(211, 211, 211);
+      }
+      .furni_mainbutton div, .closebutton div {
+        width: 100%;
+        height: 100%;
+        background-image: url("icon1.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 75%;
+        pointer-events: none;
+      }
+      .cancelbutton {
+        width: 48px;
+        height: 48px;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+      }
+      .cancelbutton:hover {
+        background-color: rgb(211, 211, 211); 
+      }
+      .cancelbutton div {
+        width: 100%;
+        height: 100%;
+        background-image: url("cancel.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 75%;
+        pointer-events: none;
+      }
+      
+     
+
+      .aimbutton {
+        width: calc( 48px - 2px);
+        height: calc( 48px - 2px);
+        background-color: #f2f2f2;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .aimbutton:hover {
+        background-color: #dadada;
+      }
+
+      .aimtext {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc( 100% - 48px );
+        height: 48px;
+        padding: 5px;
+        color: #b0b0b0;
+        text-align: center;
+      }
+
+      .aimicon {
+        width: 100%;
+        height: 100%;
+        background-image: url("aim.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 75%;
+        pointer-events: none;
+      }
+      
+
+      .placebutton {
+        height: 48px;
+        border-radius: 5px;
+        -clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+        display: flex;
+        flex-direction: row;
+        background: linear-gradient( to top, #f2f2f2 5px , #ffc231 5px);
+        box-shadow: 2px 2px 2px #00000047;
+      }
+
+      .placebutton:hover {
+        background: linear-gradient( to top, #f2f2f2 5px , #2cc67e 5px);
+      }
+      .placetext {
+        font-size: 16pt;
+        text-align: left;
+        padding: 10px 15px 0px 00px;
+      }
+
+      .placeicon {
+        width: 48px;
+        height: 48px;
+        background-size: 32px;
+        background-image: url("icon1.png");
+        background-repeat: no-repeat;
+        background-position: 5px center;
+        pointer-events: none;
+      }
+
+
+       /* The container must be positioned relative: */
+      .custom-select {
+        position: relative;
+        box-shadow: 2px 2px 2px #00000047;
+      }
+
+      .custom-select select {
+        display: none; /*hide original SELECT element: */
+      }
+
+      .select-selected {
+        background-color: #ffc231;
+        color: black;
+      }
+      .select-selected:hover {
+        background-color: #dba62a; 
+      }
+
+      /* Style the arrow inside the select element: */
+      .select-selected:after {
+        position: absolute;
+        content: "";
+        right: 10px;
+        width: 0;
+        height: 0;
+        top: 10px;
+        border: 6px solid #0000;
+        border-color: #000 transparent transparent transparent;
+      }
+
+      /* Point the arrow upwards when the select box is open (active): */
+      .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #000 transparent;
+        top: 3px;
+      }
+
+      /* style the items (options), including the selected item: */
+      .select-items div,.select-selected {
+        color: #d5d3d3;
+        padding: 2px 10px;
+        border: 1px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+      }
+
+      .custom-select .select-selected{
+        color:black !important;
+      }
+
+      /* Style items (options): */
+      .select-items {
+        position: absolute;
+        background: linear-gradient(to bottom , #333 , #4d4d4d 5px);
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+        max-height: 350px;
+        overflow-y: auto;
+        min-width: 250px;
+        box-shadow: 2px 2px 2px #00000047;
+      }
+
+      /* Hide the items when the select box is closed: */
+      .select-hide {
+        display: none;
+      }
+
+      .select-items div:hover, .same-as-selected {
+        background-color: #f2f2f2;
+        box-shadow: 0px 0px 3px #000;
+        color: black !important;
+      } 
+
+
+
+
+
+      .panel {
+        transform: translateY(-3px);
+        background: linear-gradient(to bottom,#0b0b0b8f,#33333380  5px);
+        border-top: 3px solid #f2f2f2;
+        min-width: 425px;
+        position: absolute;
+        top: 48px;
+        transition: border-top 0.1s ease-in;
+        border-radius: 15px;
+        left: -10px;
+      }
+      .selectpanel {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-gap: 1px;
+        opacity: 1;
+        transition: opacity 0.25s ease-in;
+        padding: 25px;
+      }
+      .adjustpanel {
+        display: grid;
+        grid-template-columns: auto;
+        grid-gap: 25px;
+        opacity: 1;
+        transition: opacity 0.25s ease-in;  
+        position: relative;
+        padding: 0;
+        height: 250px;
+      }
+
+
+
+
+
+
+      .aimcontainer {
+        height: 48px;
+        border: 1px solid #f2f2f2;
+        border-radius: 3px;
+        background-color: #171717;
+        box-shadow: 2px 2px 2px #00000047;  
+        position: absolute;
+        width: 100px;
+        top: 150px;
+        left: calc( 60% + 35px );
+      }
+
+          
+      
+
+      .transformcontainer {
+        display: grid; 
+        grid-template-columns: 16% 22% 22% 22%;
+        grid-row-gap: 5px;
+        grid-column-gap: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: white;
+        border-bottom: 1px solid #ffffff26;
+        padding: 25px;
+        height: 100px;
+      }
+
+      .nudgecontainer {
+        position: absolute;
+        top: 100px;
+        left: 0;
+        width: 60%;
+        border-right: 1px solid #ffffff26;
+        height: 150px;
+      }
+
+      .nudgeleft {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 34px;
+        height: 40px;
+        left: 114px;
+        top: 93px;
+        clip-path: polygon(0% 0%, 0% 100%, 10% 100%, 100% 55%, 100% 15%, 70% 0%);
+        background-color: transparent;
+        background-image: url("left.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 20;
+      }
+
+      .nudgeright {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 34px;
+        height: 40px;
+        left: 173px;
+        top: 93px;
+        clip-path: polygon(100% 0%, 100% 100%, 90% 100%, 0% 55%, 0% 15%, 30% 0%);
+        
+        background-color: transparent;
+        background-image: url("right.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 20;
+      }
+
+      .nudgeforward {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 45px;
+        height: 20px;
+        left: 144px;
+        top: 75px;
+        clip-path: polygon(100% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%, 0% 0%);
+        
+        background-color: transparent;
+        background-image: url("forward.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 10;
+      }
+
+      .nudgeback {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 84px;
+        left: 144px;
+        top: 114px;
+        clip-path: polygon(70% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 30% 0%);
+        
+        height: 35px;
+        background-color: transparent;
+        background-image: url("back.png");
+        z-index: 30;
+      }
+
+      .nudgeup {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 23px;
+        height: 28px;
+        left: 73px;
+        top: 70px;
+        background-color: transparent;
+        background-image: url("up.png");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .nudgedown {
+        background-color: #ffc231;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 23px;
+        height: 28px;
+        left: 73px;
+        top: 105px;
+        background-color: transparent;
+        background-image: url("down.png");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .nudgeforward:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+      .nudgeback:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+
+      .nudgeleft:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+      .nudgeright:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+      .nudgeup:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+      .nudgedown:hover {
+        -transform: translateX(-50%) translateY(calc( -50% + 1px) );
+        transition: all 0.1s ease;
+        filter: brightness(0.8);
+      }
+
+      .placecontainer {
+        position: absolute;
+        bottom: -65px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .gridcontainer {
+        position: absolute;
+        top: 120px;
+        left: 60px;
+        width: 130px;
+      }
+
+
+
+      .numbercontainer {
+        height: 20px;
+        display: inline-flex;
+        box-shadow: 2px 2px 2px #0000004f;
+        background-color: #6c6c6c;
+        border-radius: 5px;
+      }
+
+      .numberfield {
+        color:white;
+        border: none;
+        width: 45%;
+        padding: 0px 5px;
+        font-size: 9pt;
+        background-color: #3c3c3c;
+        width: 75%;
+        z-index: 1;
+        
+        background-image: url("slide.png");
+        background-repeat: no-repeat;
+        background-position: right;
+        background-size: 12px;
+      }
+
+      .numberlabel {
+        color: #fff;
+        width: 40%;
+        text-align: center;
+      }
+
+      .numberinc {
+        background-image: url("inc.png");
+      }
+      .numberdec {
+        background-image: url("dec.png");
+      }
+
+      .numberdec , .numberinc {
+        background-color: #f2f2f2;
+        background-repeat: no-repeat;
+        background-position: center;
+        min-width: 15px;
+        width: 10%;
+        display: none;
+      }
+
+      .numberinc:hover , .numberdec:hover {
+        background-color: rgb(187, 187, 187);
+      }
+
+      /*input[type="number"] {
+        -moz-appearance: textfield !important;
+        -webkit-appearance: none;
+        margin: 0;
+      }*/
+
+ 
+
+      .test{
+        background-image: url("test.png");
+        background-repeat: no-repeat;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: 100%;
+        height: 100%;
+        top: calc( 50% + 20px );
+        left: 50%;
+        background-position: center;
+        pointer-events: none;
+      }
+
+
+
+      .editbutton {
+        position: absolute;
+        top: 00%;
+        transform: translateX(-50%) translateY(-50%);
+        width: 32px;
+        height: 32px;
+        left: 70px;
+        transform: translateX(-50%) translateY( calc( -50% - 3px ));
+        border-radius: 50%;
+        
+        background-color: #dfdfdf;
+        box-shadow: 2px 2px 2px #00000047;
+        transition: opacity ease;
+        transition-delay: 0s;
+        transition-duration: 0s;
+      }
+
+      .editbutton:hover {
+        background-color: #b8b8b8;
+      }
+
+      .editicon {
+       
+        background-image: url("edit.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        background-size: 70%;
+      }
+
+
+
+      .removebutton {
+        position: absolute;
+        top: 100%;
+        transform: translateX(-50%) translateY(-50%);
+        width: 32px;
+        height: 32px;
+        left: 70px;
+        transform: translateX(-50%) translateY( calc( -50% - 3px ));
+        border-radius: 50%;
+        
+        background-color: #dfdfdf;
+        box-shadow: 2px 2px 2px #00000047;
+        transition: opacity ease;
+        transition-delay: 0s;
+        transition-duration: 0s;
+      }
+
+      .removebutton:hover {
+        background-color: #b8b8b8;
+      }
+
+      .removeicon {
+       
+        background-image: url("remove.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        background-size: 70%;
+      }
+
+
+
+      .exitbutton {
+        position: absolute;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        width: 32px;
+        height: 32px;
+        left: 100px;
+        transform: translateX(-50%) translateY( calc( -50% - 3px ));
+        border-radius: 50%;
+        
+        background-color: #dfdfdf;
+        box-shadow: 2px 2px 2px #00000047;
+        transition: opacity ease;
+        transition-delay: 0s;
+        transition-duration: 0s;
+      }
+
+      .exitbutton:hover {
+        background-color: #b8b8b8;
+      }
+
+      .exiticon {
+       
+        background-image: url("exit.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        background-size: 70%;
+      }
+
+
+      .overlay {
+        position: fixed;
+        pointer-events: none;
+        width: calc( 100vw - 10px );
+        height: calc( 100vh - 10px );
+        color:gray;
+        font-size: 12pt;
+        text-transform: uppercase;
+        font-weight: bolder;
+        left:5px;
+        top:5px;
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div id = "root" class="root">
+        <button id="mainButton" class="furni_mainbutton off"><div class="mainicon"></div></button>
+        <button id="editButton" class="editbutton"><div class="editicon"></div></button>
+        <button id="removeButton" class="removebutton"><div class="removeicon"></div></button>
+        <button id="exitButton" class="exitbutton"><div class="exiticon"></div></button>
+        
+        <div id="mainText" class="maintext">cancel</div>
+        <div id="panel" class="panel">
+          <div id = "selectPanel" class="selectpanel off">
+          </div>
+          <div id="adjustPanel" class="adjustpanel ">
+
+            <div class="aimcontainer">
+              <div class="aimtext">aim<br>[F]</div>
+              <button id="aimButton" class="aimbutton"><div class="aimicon"></div></button>
+            </div>
+
+            <div class="transformcontainer">
+              <p>position</p>
+              <div class="numbercontainer"><label class="numberlabel">x</label><input id="fieldx" class="numberfield" type="text" mult="0.01" placeholder="-"></input></div>
+              <div class="numbercontainer"><label class="numberlabel">y</label><input id="fieldy" class="numberfield" type="text" mult="0.01" placeholder="-"></input></div>
+              <div class="numbercontainer"><label class="numberlabel">z</label><input id="fieldz" class="numberfield" type="text" mult="0.01" placeholder="-"></input></div>
+              <p>rotation</p>
+              <div class="numbercontainer"><label class="numberlabel">x</label><input id="fieldex" class="numberfield" type="text" mult="0.2" placeholder="-"></input></div>
+              <div class="numbercontainer"><label class="numberlabel">y</label><input id="fieldey" class="numberfield" type="text" mult="0.2" placeholder="-"></input></div>
+              <div class="numbercontainer"><label class="numberlabel">z</label><input id="fieldez" class="numberfield" type="text" mult="0.2" placeholder="-"></input></div>
+            </div>
+
+            <div class="gridcontainer">
+              <div class="numbercontainer"><label class="numberlabel">grid</label><input id="fieldgrid" class="numberfield" type="text" mult="0.02" placeholder="-"></input></div>
+            </div>
+
+            <div class="nudgecontainer">
+              <div class="test"></div>
+              <button id="nudgeLeft" class = "nudgeleft"></button>
+              <button id="nudgeRight" class = "nudgeright"></button>
+              <button id="nudgeForward" class = "nudgeforward"></button>
+              <button id="nudgeBack" class = "nudgeback"></button>
+              <button id="nudgeUp" class = "nudgeup"></button>
+              <button id="nudgeDown" class = "nudgedown"></button>
+            </div>
+            
+            <div class="placecontainer">
+              <button id = "placeButton" class="placebutton"><div class="placeicon"></div><div id = "placeButtonText" class="placetext">buy</div></button>
+            </div>
+          </div>
+        </div>
+      </div>
+         
+    </div>
+    <div id = "overlay" class="overlay"></div>
+    <script>
+      /////////////////////////////////////////////////
+      /* main */
+      /////////////////////////////////////////////////
+      var debug = false
+      window.onload = function() {
+        window.addEventListener('message', function(event) {
+          //console.log("got UI mssg",event)
+          if( event != null && event.data != null && event.data.type != null ) {
+            switch( event.data.type ) {
+              case "init":
+                Init(event.data)
+              break;
+              case "display":
+                SetAlpha(event.data.enabled?1:0)
+              break;
+              case "focus":
+                Focus(event.data)
+              break;
+              case "openEdit":
+                OpenEdit(event.data)
+              break;
+              case "setTransform":
+                SetTransform(event.data)
+              break;
+              case "setAlpha":
+                SetAlpha(event.data.alpha)
+              break;
+              case "close":
+                Close()
+              break;
+              case "open":
+                Open()
+              break;
+              case "cancel":
+                Cancel()
+              break;
+              case "overlay":
+                Overlay(event.data.enabled,event.data.text,event.data.color)
+              break;
+            }
+          }
+        })
+
+        SetAlpha(0);
+      }
+        
+      /////////////////////////////////////////////////
+      /* objects */
+      /////////////////////////////////////////////////
+      var root = document.getElementById("root")
+      var editButton = document.getElementById("editButton")
+      var removeButton = document.getElementById("removeButton")
+      var exitButton = document.getElementById("exitButton")
+      var mainButton = document.getElementById("mainButton")
+      var panel = document.getElementById("panel")
+      var selectPanel = document.getElementById("selectPanel")
+      var adjustPanel = document.getElementById("adjustPanel")
+      var aimButton = document.getElementById("aimButton")
+      var placeButton = document.getElementById("placeButton")
+      var mainText = document.getElementById("mainText") 
+      var placeButtonText = document.getElementById("placeButtonText")
+      var nudgeLeft = document.getElementById("nudgeLeft")
+      var nudgeRight = document.getElementById("nudgeRight")
+      var nudgeForward = document.getElementById("nudgeForward")
+      var nudgeBack = document.getElementById("nudgeBack")
+      var nudgeUp = document.getElementById("nudgeUp")
+      var nudgeDown = document.getElementById("nudgeDown")
+      var fieldx = document.getElementById("fieldx")
+      var fieldy = document.getElementById("fieldy")
+      var fieldz = document.getElementById("fieldz")
+      var fieldex = document.getElementById("fieldex")
+      var fieldey = document.getElementById("fieldey")
+      var fieldez = document.getElementById("fieldez")
+      var fieldgrid = document.getElementById("fieldgrid")
+      var overlay = document.getElementById("overlay")
+    
+      var onOpen,onClose,onCancel,onSelect,onPlace,onStartAim,onStopAim,onRepositionStart,onReposition,onTransform,onEdit,onRemove,onExit
+      var top,left
+      var dragging = false
+      var aiming = false
+      var aimDown = false
+      var sounds = {}
+      var x = 0,y = 0,z = 0,ex = 0,ey = 0,ez = 0
+      var grid = 0.1
+      var audioPlayer
+      var editting = false
+     
+      /////////////////////////////////////////////////
+      /* funcs triggered from game  */
+      /////////////////////////////////////////////////
+      function GetLen(tab) {
+        var c = 0;
+        for (var k in tab) {
+          c++;
+        }
+        return c;
+      }
+      function Init(config) {
+        $.post(config.onInit);
+
+        onOpen            = config.onOpen
+        onClose           = config.onClose
+        onCancel          = config.onCancel
+        onSelect          = config.onSelect
+        onPlace           = config.onPlace 
+        onStartAim        = config.onStartAim
+        onStopAim         = config.onStopAim
+        onReposition      = config.onReposition
+        onRepositionStart = config.onRepositionStart
+        onTransform       = config.onTransform
+        onEdit            = config.onEdit
+        onRemove          = config.onRemove
+        onExit            = config.onExit
+        top               = config.top
+        left              = config.left
+
+        root.style.cssText = FormatString("top:{0};left:{2};",config.top,config.left)
+        for( var c in config.items ) {
+          var ca = config.items[c]
+          var category = (c || "-").toString() 
+          var options = []
+          for( var op=0;op<GetLen(ca);op++){// in ca ) {
+            var o = ca[op]
+            if( o != null && typeof(o) == "object" && o.name != null && o.id != null ) {
+              name = (o.name || "-").toString()
+              id = (o.id || "-").toString()
+              price = (o.price || "-").toString()
+              options.push({name:name,id:id,price:price})
+            }
+          }
+          CreateDropDown(selectPanel,options,category)
+        }
+
+        document.addEventListener("click", closeAllSelect);
+        document.onkeydown = function(evt) {
+          if(document.activeElement.localName == "input") { return }
+          if( IsAim(evt) ) {
+            if( MayAim()) {
+              if( !aiming ) {
+                aiming = true 
+                StartAim()
+              }
+            }       
+          }
+        }
+
+        panel.classList.toggle("off",true)
+        mainText.classList.toggle("off",true)
+        mainButton.classList = "furni_mainbutton"
+        editButton.classList = "editbutton"
+        removeButton.classList = "removebutton"
+        exitButton.classList = "exitbutton"
+        
+        mainButton.addEventListener("click",function(e) {
+          if( dragging ) { 
+            dragging = false; 
+            StopDrag()
+            return 
+          }
+          if( mainButton.classList.toString().includes("cancelbutton")) {
+            Cancel()
+          } else if( mainButton.classList.toString().includes("closebutton")) {
+            Close()
+          } else {
+            Open()
+          }
+        })
+        placeButton.addEventListener("click",function(e) {
+          Place()
+        })
+        aimButton.addEventListener("click",function(e) {
+          StartAim() 
+        })
+        editButton.addEventListener("click",Edit)
+        removeButton.addEventListener("click",Remove)
+        exitButton.addEventListener("click",Exit)
+
+        nudgeLeft.addEventListener("click",NudgeLeft)
+        nudgeRight.addEventListener("click",NudgeRight)
+        nudgeForward.addEventListener("click",NudgeForward)
+        nudgeBack.addEventListener("click",NudgeBack)
+        nudgeUp.addEventListener("click",NudgeUp)
+        nudgeDown.addEventListener("click",NudgeDown)
+
+        fieldx.onchange = PushFields
+        fieldy.onchange = PushFields
+        fieldz.onchange = PushFields
+        fieldex.onchange = PushFields
+        fieldey.onchange = PushFields
+        fieldez.onchange = PushFields
+        fieldgrid.onchange = ClampFields
+
+        UpdateFields()
+      }
+      function Focus(config) {
+        aiming = false 
+        StopAim()
+      }
+      function OpenEdit(config) {
+        aiming = false
+        
+        Open()
+
+        var id = config.id || "no-id"
+        var name = config.name || "no-name"
+        var price = config.price || "no-price"
+        Select(id,name,price,true)
+
+        SetPlaceButtonText("Ok")
+
+        //PlaySound("click-round-pop-1.wav")
+        //panel.classList.toggle("off",false)
+        //editButton.setAttribute("style","")
+        //editButton.classList.toggle("off",true)
+        //selectPanel.classList.toggle("off",true)
+        //adjustPanel.classList.toggle("off",false)
+        //mainButton.classList = "cancelbutton"
+        //mainText.classList.toggle("off",false)
+        //var name = config.name || "no-name"
+        //var price = config.price || "no-price"
+        //placeButtonText.innerHTML = "Sell " + price.toString() + "$"
+        //placeButton.style.cssText = "background-color:red"
+        //mainText.innerHTML = name
+
+      }
+      function SetTransform(config) {
+        x =  config.position.x  
+        y =  config.position.y 
+        z =  config.position.z 
+        ex = config.rotation.x 
+        ey = config.rotation.y 
+        ez = config.rotation.z 
+        UpdateFields()
+      }
+
+      /////////////////////////////////////////////////
+      /* logic */
+      /////////////////////////////////////////////////
+      function Edit() {
+        PlaySound("click-round-pop-1.wav")  
+        Fire(onEdit)
+      }
+      function Remove() {
+        PlaySound("click-round-pop-1.wav")  
+        Fire(onRemove)
+      }
+      function Exit() {
+        PlaySound("click-round-pop-1.wav")  
+        Fire(onExit)
+      }
+      function Open() {
+        PlaySound("click-round-pop-1.wav")
+        panel.classList.toggle("off",false)
+        selectPanel.classList.toggle("off",false)
+        adjustPanel.classList.toggle("off",true)
+        mainButton.classList = "closebutton"
+        editButton.setAttribute("style","")
+        editButton.classList.toggle("off",true)
+        removeButton.setAttribute("style","")
+        removeButton.classList.toggle("off",true)
+        exitButton.setAttribute("style","")
+        exitButton.classList.toggle("off",true)
+        if( onOpen != null && typeof(onOpen) == "string") {
+          Fire(onOpen)
+        }
+      }
+      function Close() {
+        PlaySound("affirm-detuned.wav")
+        panel.classList.toggle("off",true)
+        mainButton.classList = "furni_mainbutton"
+        mainText.classList.toggle("off",true)
+        editButton.classList.toggle("off",false)
+        editButton.setAttribute("style","transition-delay: 0.15s;transition-duration: 0.5s;")
+        removeButton.classList.toggle("off",false)
+        removeButton.setAttribute("style","transition-delay: 0.15s;transition-duration: 0.5s;")
+        exitButton.classList.toggle("off",false)
+        exitButton.setAttribute("style","transition-delay: 0.15s;transition-duration: 0.5s;")
+        
+        if( onClose != null && typeof(onClose) == "string") {
+          Fire(onClose)
+        }
+      }
+      function Cancel() {
+        if( editting ) {
+          Close()
+        } else { 
+          PlaySound("affirm-detuned.wav")
+          mainText.classList.toggle("off",true)
+          panel.classList.toggle("off",false)
+          selectPanel.classList.toggle("off",false)
+          adjustPanel.classList.toggle("off",true)
+          mainButton.classList = "closebutton"
+        }
+        if( onCancel != null && typeof(onCancel) == "string") {
+          Fire(onCancel)
+        }
+      }
+      function Select(id,name,price,forEdit) {
+        editting = forEdit
+        
+        //PlaySound("click-round-pop-2.wav")
+        selectPanel.classList.toggle("off",true)
+        adjustPanel.classList.toggle("off",false)
+        mainButton.classList = "cancelbutton"
+        mainText.classList.toggle("off",false)
+        //var name = el.innerHTML
+        //var id = el.getAttribute("value") || "-"
+        //var price = el.getAttribute("price") || "-"
+        SetPlaceButtonText("BUY " + price.toString() + "$")
+        mainText.innerHTML = name
+        if( onSelect != null && typeof(onSelect) == "string") {
+          Fire(onSelect,JSON.stringify({id:id}))
+        }
+      }
+      function StartDrag() {
+        PlaySound("click-round-pop-3.wav")
+        mainButton.classList.toggle("moving",true)
+        if(elmnt && onRepositionStart != null && typeof(onRepositionStart) == "string") {
+          Fire(onRepositionStart,JSON.stringify({top:elmnt.style.top,left:elmnt.style.left}))
+        }
+      }
+      function StopDrag() {
+        PlaySound("click-round-pop-2.wav")
+        mainButton.classList.toggle("moving",false)
+        if( onReposition != null && typeof(onReposition) == "string") {
+          Fire(onReposition,JSON.stringify({top:elmnt.style.top,left:elmnt.style.left}))
+        }
+      }
+      function Place() {
+        PlaySound("click-round-pop-1.wav")
+        PlaySound("alert-echo.wav")
+        panel.classList.toggle("off",false)
+        mainText.classList.toggle("off",true)
+        mainButton.classList = "closebutton"
+        selectPanel.classList.toggle("off",false)
+        adjustPanel.classList.toggle("off",true)
+        if( onPlace != null && typeof(onPlace) == "string" ) {
+          Fire(onPlace)
+        } 
+      }
+      function StartAim() {
+        PlaySound("click-round-pop-2.wav")
+        if( onStartAim != null && typeof(onStartAim) == "string" ) {
+          Fire(onStartAim)
+        }
+      }
+      function StopAim() {
+        PlaySound("click-round-pop-3.wav")
+        if( onStopAim != null && typeof(onStopAim) == "string" ) {
+          Fire(onStopAim)
+        }
+        Overlay(false)
+      }
+      function SetAlpha(a) {
+        root.style.opacity = a
+      }
+      SetAlpha(0);
+      function FormatString() {
+        var a = null;
+        for (var k in arguments) {
+          if( a == null) {
+            a = arguments[k]
+          } else {
+            if( arguments[k] == null ) {arguments[k] = ""}
+            a = a.replace("{" + (k-1) + "}", arguments[k].toString())
+          }
+        }
+        return a
+      }
+      function Fire(o,v) {
+        if( debug ) { return }
+        if( v == null ) { v = JSON.stringify({}) }
+        $.post(o,v)
+      }
+      function MayAim() {
+        return mainButton.classList == "cancelbutton"
+      }
+      function IsAim(evt) {
+        evt = evt || window.event;
+        var is = false;
+        if ("key" in evt) {
+          is = (evt.key === "f" || evt.key === "f");
+        } else {
+          is = (evt.keyCode === 70);
+        }
+        return is
+      }
+      function SetPlaceButtonText(txt) {
+        placeButtonText.innerHTML = txt
+      }
+      function Overlay(enabled,txt,color) {
+        if (color) {
+          var col = "rgba("+color.r+","+color.g+","+color.b+","+color.a+")";
+          overlay.style.color = col
+          overlay.style.border = "1px solid "+col
+        } else {
+          var col = "rgba(0,0,0,0)";
+          overlay.style.color = col
+          overlay.style.border = "1px solid "+col
+        }
+        overlay.classList.toggle("off",!!!enabled)
+        overlay.innerHTML = txt || ""
+      }
+      function PlaySound(path,volume) {
+        volume = volume || 1
+        if( debug) {
+          var a = new Audio(path);
+          a.volume = 1;   
+          a.play();
+        } else {
+          if (audioPlayer != null) {
+            audioPlayer.pause();
+          }
+
+          audioPlayer = new Howl({src: [path]});
+          audioPlayer.volume(1);
+          audioPlayer.play();
+        }
+      }
+      
+      function NudgeLeft() {
+        x -= grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+      function NudgeRight() {
+        x += grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+      function NudgeForward() {
+        y += grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+      function NudgeBack() {
+        y -= grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+      function NudgeUp() { 
+        z += grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+      function NudgeDown() {
+        z -= grid
+        PlaySound("click-round-pop-3.wav")
+        PushTransform()
+        UpdateFields()
+      }
+
+      function UpdateFields() {
+        x = Math.round(x*100)/100
+        y = Math.round(y*100)/100
+        z = Math.round(z*100)/100
+        ex = Math.round(ex*100)/100
+        ey = Math.round(ey*100)/100
+        ez = Math.round(ez*100)/100
+        grid = Math.round(grid*10)/10
+        grid = Math.max(0.1,Math.min(1,grid))
+
+        fieldx.value = x.toString()
+        fieldy.value = y.toString()
+        fieldz.value = z.toString()
+        fieldex.value = ex.toString()
+        fieldey.value = ey.toString()
+        fieldez.value = ez.toString()
+        fieldgrid.value = grid.toString()
+      }
+      function PushFields() {
+        x = Number.parseFloat(fieldx.value)
+        y = Number.parseFloat(fieldy.value)
+        z = Number.parseFloat(fieldz.value)
+        ex = Number.parseFloat(fieldex.value)
+        ey = Number.parseFloat(fieldey.value)
+        ez = Number.parseFloat(fieldez.value)
+        
+        PushTransform()
+      }
+      function ClampFields() {
+        grid = Number.parseFloat(fieldgrid.value)
+        grid = Math.round(grid*10)/10
+        grid = Math.max(0.1,Math.min(1,grid))
+        fieldgrid.value = grid.toString()
+      }
+      function PushTransform() {
+        //console.log("PushTransform",{position:{x:x,y:y,z:z},rotation:{x:ex,y:ey,z:ez}})
+        Fire(onTransform,JSON.stringify({position:{x:x,y:y,z:z},rotation:{x:ex,y:ey,z:ez}}))
+      } 
+      /////////////////////////////////////////////////
+      /* dropdown */ 
+      /////////////////////////////////////////////////
+      function CreateDropDown(parent,options,name) {
+        if( parent == null || typeof(parent) != "object") { return }
+        if( options == null || typeof(options) != "object") { return }
+        var d = document.createElement("DIV")
+        d.classList = "custom-select"
+        var s = document.createElement("SELECT")
+       
+        for( var i in options ) {
+          var o = options[i]
+          var p = document.createElement("OPTION")
+          p.innerHTML = (o && o.name ||"-").toString()
+          p.setAttribute("value",(o && o.id || "-").toString())
+          p.setAttribute("price",(o && o.price || "-").toString())
+          s.appendChild(p)
+        }
+
+        var sp = document.createElement("OPTION")
+        sp.innerHTML = name.toString()
+        sp.setAttribute("disabled","")
+        sp.setAttribute("selected","")
+        s.appendChild(sp)
+        
+        s.onchange = function(e) {
+          var id = e.getAttribute("value") || "no-id"
+          var name = e.innerHTML || "no-name"
+          var price = e.getAttribute("price") || "no-price"
+          Select(id,name,price,false)
+        }
+       
+        d.appendChild(s)
+        parent.appendChild(d)
+        InitDropDown(d)
+      }
+      function InitDropDown(el) {
+        selElmnt = el.getElementsByTagName("select")[0];
+          /*for each element, create a new DIV that will act as the selected item:*/
+          a = document.createElement("DIV");
+          a.setAttribute("class", "select-selected");
+          a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+          el.appendChild(a);
+          /*for each element, create a new DIV that will contain the option list:*/
+          b = document.createElement("DIV");
+          b.setAttribute("class", "select-items select-hide");
+          for (j = 0; j < selElmnt.length; j++) {
+            /*for each option in the original select element,
+            create a new DIV that will act as an option item:*/
+            if( selElmnt.options[j].getAttribute("disabled") != null ) { continue}
+            c = document.createElement("DIV");
+            c.innerHTML = selElmnt.options[j].innerHTML;
+            c.setAttribute("value",selElmnt.options[j].getAttribute("value"))
+            c.setAttribute("price",selElmnt.options[j].getAttribute("price"))
+            c.addEventListener("click", function(e) {
+                /*when an item is clicked, update the original select box,
+                and the selected item:*/
+                var y, i, k, s, h;
+                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                h = this.parentNode.previousSibling;
+                for (i = 0; i < s.length; i++) {
+                  if (s.options[i].innerHTML == this.innerHTML) {
+                    //s.selectedIndex = i;
+                    if( s.onchange != null && typeof(s.onchange) == "function") {
+                      s.onchange(this)
+                    }
+                    //h.innerHTML = this.innerHTML;
+                    y = this.parentNode.getElementsByClassName("same-as-selected");
+                    for (k = 0; k < y.length; k++) {
+                      y[k].removeAttribute("class");
+                    }
+                    this.setAttribute("class", "same-as-selected");
+                    break;
+                  }
+                }
+                h.click();
+            });
+            b.appendChild(c);
+          }
+          el.appendChild(b);
+          a.addEventListener("click", function(e) {
+              /*when the select box is clicked, close any other select boxes,
+              and open/close the current select box:*/
+   
+              PlaySound("click-round-pop-2.wav")
+       
+              e.stopPropagation();
+              closeAllSelect(this);
+              this.nextSibling.classList.toggle("select-hide");
+              this.classList.toggle("select-arrow-active");
+            });
+      }
+      function closeAllSelect(elmnt) {
+        var x, y, i, arrNo = [];
+        x = document.getElementsByClassName("select-items");
+        y = document.getElementsByClassName("select-selected");
+        for (i = 0; i < y.length; i++) {
+          if (elmnt == y[i]) {
+            arrNo.push(i)
+          } else {
+            y[i].classList.remove("select-arrow-active");
+          }
+        }
+        for (i = 0; i < x.length; i++) {
+          if (arrNo.indexOf(i)) {
+            x[i].classList.add("select-hide");
+          }
+        }
+      }
+      
+      /////////////////////////////////////////////////
+      /*slide */
+      /////////////////////////////////////////////////
+      function InitSliders() {
+        var startPos = 0;
+        var startVal = 0;
+        var sliding = false
+        var dontslide = false
+        var m = 0.01
+        var pre = 0
+        var ticks = 0
+        var currentEl
+        
+        var all = document.getElementsByClassName("numberfield")
+        
+        for( i in all ) {
+          var o = all[i]
+          o.onmousedown = dragMouseDown
+        }
+
+        function dragMouseDown(e) {
+          //e = e || window.event
+
+          startPos = e.clientY;
+          sliding = false
+          dontslide = false
+          currentEl = e.target
+
+          if( currentEl != null ) {     
+            startVal = Number.parseFloat(currentEl.value)
+            document.onmousemove = elementDrag;
+            document.onmouseup = closeDragElement;
+
+            
+            m = 0.01
+            var mult = currentEl.getAttribute("mult")
+            if( mult != null && mult != "") {
+              m = Number.parseFloat(mult)
+            }
+                 
+          }
+        }
+
+        function elementDrag(e) {
+          //e = e || window.event;
+
+          if( currentEl != null ) {
+
+            e.preventDefault();
+
+            var d = ( startPos - e.clientY )
+            var f = pre - e.clientY
+            pre = e.clientY
+
+            if( sliding == false && Math.abs(d) > 10 && dontslide == false  ) {
+              if( currentEl.selectionEnd - currentEl.selectionStart == 0) {
+                sliding = true              
+                startPos = e.clientY;
+                currentEl.setAttribute("style","color:gold;")
+                PlaySound("click-round-pop-3.wav")
+              } else {
+                dontslide = true
+              }
+            }
+          
+            if( sliding ) {     
+    
+              var to = startVal + d * m
+              to = to.toFixed(1)
+
+              document.activeElement.blur();
+              currentEl.value = to
+
+              if( Math.abs(f) > 0 ) {
+                ticks += Math.abs(f) 
+                if( ticks > 20  ) {
+                  ticks = 0
+                  //PlaySound("click-round-pop-3.wav",0.5)
+                }
+              }
+              
+              if( currentEl.onchange != null ) {
+                currentEl.onchange()
+              }
+            } 
+          }
+          
+          
+        }
+
+        function closeDragElement(e) {
+          document.onmouseup = null;
+          document.onmousemove = null;
+          if( sliding == true ) {
+            PlaySound("click-round-pop-2.wav")
+          }
+          if( currentEl != null ) {
+            currentEl.setAttribute("style","")
+          }
+          e.preventDefault();
+        }
+      }
+      /////////////////////////////////////////////////
+      /*drag */
+      /////////////////////////////////////////////////
+      function DragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        var sp1 = 0, sp2 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+          document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+          elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+          e = e || window.event;
+
+          if( e.target != null && (e.target.classList == "furni_mainbutton" || e.target.classList == "closebutton"  || e.target.classList == "cancelbutton")) {
+            
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            sp1 = pos3
+            sp2 = pos4
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+          }
+        }
+
+        function elementDrag(e) {
+          e = e || window.event;
+          e.preventDefault();
+          // calculate the new cursor position:
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+
+          // set the element's new position:
+          var minx = 20
+          var miny = 20
+          var maxx = window.innerHeight  - 20 - 48
+          var maxy = window.innerWidth  - 20 - 48
+          var px = Math.min(maxx,Math.max(minx,(elmnt.offsetTop - pos2)))
+          var py = Math.min(maxy,Math.max(miny,(elmnt.offsetLeft - pos1)))
+          elmnt.style.top = px + "px";
+          elmnt.style.left = py + "px";
+
+          
+          if( Math.abs(sp1 - pos3) + Math.abs(sp2 - pos4) > 5) {
+            if( dragging == false) {
+              dragging = true
+              StartDrag()
+            }
+          }
+        }
+
+        function closeDragElement(e) {
+          document.onmouseup = null;
+          document.onmousemove = null;
+          e.preventDefault();
+        }
+      }
+
+      /////////////////////////////////////////////////
+      /* init self */
+      /////////////////////////////////////////////////
+      DragElement(root);
+      InitSliders()
+     
+      if( debug ) {
+        Init({
+        items:{
+          sofas : {
+            [1] : { id :  "miss_rub_couch_01", price : 300, name : "Old Flowered Couch" },
+            [2] : { id :  "prop_fib_3b_bench", price : 700, name : "3 Seat Chair" },
+            [3] : { id :  "prop_ld_farm_chair01", price : 250, name : "Old 1 Seat Couch" },
+            [4] : { id :  "prop_ld_farm_couch01", price : 300, name : "Old 3 Seat Couch" },
+            [5] : { id :  "prop_ld_farm_couch02", price : 300, name : "Old Striped Couch" },
+            [6] : { id :  "v_res_d_armchair", price : 300, name : "Old 1 Seat Couch Yellow" },
+            [7] : { id :  "v_res_fh_sofa", price : 3700, name : "Corner Sofa" },
+            [8] : { id :  "v_res_mp_sofa", price : 3700, name : "Corner Sofa 2" },
+            [9] : { id :  "v_res_d_sofa", price : 700, name : "Sofa 1" },
+            [10] : { id :  "v_res_j_sofa", price : 700, name : "Sofa 2" },
+            [11] : { id :  "v_res_mp_stripchair", price : 700, name : "Sofa 3" },
+            [12] : { id :  "v_res_m_h_sofa_sml", price : 700, name : "Sofa 4" },
+            [13] : { id :  "v_res_r_sofa", price : 700, name : "Sofa 5" },
+            [14] : { id :  "v_res_tre_sofa", price : 700, name : "Sofa 6" },
+            [15] : { id :  "v_res_tre_sofa_mess_a", price : 700, name : "Sofa 7" },
+            [16] : { id :  "v_res_tre_sofa_mess_b", price : 700, name : "Sofa 8" },
+            [17] : { id :  "v_res_tre_sofa_mess_c", price : 700, name : "Sofa 9" },
+            [18] : { id :  "v_res_tt_sofa", price : 700, name : "Sofa 10" },
+            [19] : { id :  "prop_rub_couch02", price : 700, name : "Sofa 11" },
+          },
+
+          chairs : {
+            [1] : { id :  "v_res_d_highchair", price : 700, name : "High Chair" },
+            [2] : { id :  "v_res_fa_chair01", price : 700, name : "Chair" },
+            [3] : { id :  "v_res_fa_chair02", price : 700, name : "Chair" },
+            [4] : { id :  "v_res_fh_barcchair", price : 700, name : "High Chair" },
+            [5] : { id :  "v_res_fh_dineeamesa", price : 700, name : "Dine Chair 1" },
+            [6] : { id :  "v_res_fh_dineeamesb", price : 700, name : "Dine Chair 2" },
+            [7] : { id :  "v_res_fh_dineeamesc", price : 700, name : "Dine Chair 3" },
+            [8] : { id :  "v_res_fh_easychair", price : 700, name : "Chair" },
+            [9] : { id :  "v_res_fh_kitnstool", price : 700, name : "Stool" },
+            [10] : { id :  "v_res_fh_singleseat", price : 700, name : "High Chair" },
+            [11] : { id :  "v_res_jarmchair", price : 700, name : "Arm Chair" },
+            [12] : { id :  "v_res_j_dinechair", price : 700, name : "Dining Chair" },
+            [13] : { id :  "v_res_j_stool", price : 700, name : "Stool" },
+            [14] : { id :  "v_res_mbchair", price : 700, name : "MB Chair" },
+            [15] : { id :  "v_res_m_armchair", price : 700, name : "Arm Chair" },
+            [16] : { id :  "v_res_m_dinechair", price : 700, name : "Dine Chair" },
+            [17] : { id :  "v_res_study_chair", price : 700, name : "Study Chair" },
+            [18] : { id :  "v_res_trev_framechair", price : 700, name : "Frame Chair" },
+            [19] : { id :  "v_res_tre_chair", price : 700, name : "Chair" },
+            [20] : { id :  "v_res_tre_officechair", price : 700, name : "Office Chair" },
+            [21] : { id :  "v_res_tre_stool", price : 700, name : "Stool" },
+            [22] : { id :  "v_res_tre_stool_leather", price : 700, name : "Stool Leather" },
+            [23] : { id :  "v_res_tre_stool_scuz", price : 700, name : "Stool Scuz" },
+            [24] : { id :  "v_med_p_deskchair", price : 700, name : "Desk Chair" },
+            [25] : { id :  "v_med_p_easychair", price : 700, name : "Easy Chair" },
+            [26] : { id :  "v_med_whickerchair1", price : 700, name : "Whicker Chair" },
+            [27] : { id :  "prop_direct_chair_01", price : 700, name : "Direct Chair 1" },
+            [28] : { id :  "prop_direct_chair_02", price : 700, name : "Direct Chair 2" },
+            [29] : { id :  "prop_yacht_lounger", price : 700, name : "Yacht Seat 1" },
+            [30] : { id :  "prop_yacht_seat_01", price : 700, name : "Yacht Seat 2" },
+            [31] : { id :  "prop_yacht_seat_02", price : 700, name : "Yacht Seat 3" },
+            [32] : { id :  "prop_yacht_seat_03", price : 700, name : "Yacht Seat 4" },
+            [33] : { id :  "v_ret_chair_white", price : 100, name : "White Chair" },
+            [34] : { id :  "v_ret_chair", price : 100, name : "Chair" },
+            [35] : { id :  "v_ret_ta_stool", price : 100, name : "TA Stool" },
+            [36] : { id :  "prop_cs_office_chair", price : 100, name : "Office Chair" },
+          },
+
+          beds : {
+            [1] : { id :  "v_res_d_bed", price : 700, name : "D Bed" },	
+            [2] : { id :  "v_res_lestersbed", price : 700, name : "L Bed" },	
+            [3] : { id :  "v_res_mbbed", price : 700, name : "MB Bed" },	
+            [4] : { id :  "v_res_mdbed", price : 700, name : "MD Bed" },	
+            [5] : { id :  "v_res_msonbed", price : 700, name : "Mason Bed" },	
+            [6] : { id :  "v_res_tre_bed1", price : 700, name : "T Bed" },	
+            [7] : { id :  "v_res_tre_bed2", price : 700, name : "T Bed 2" },	
+            [8] : { id :  "v_res_tt_bed", price : 700, name : "TT Bed" },	
+          },
+
+
+          general : {
+            [1] : { id :  "v_corp_facebeanbag", price : 100, name : "Bean Bag 1" },
+            [2] : { id :  "v_res_cherubvase", price : 2500, name : "White Vase" },
+            [3] : { id :  "v_res_d_paddedwall", price : 300, name : "Padded Wall" },
+            [4] : { id :  "v_res_d_ramskull", price : 300, name : "Item" },
+            [5] : { id :  "v_res_d_whips", price : 300, name : "Whips" },
+            [6] : { id :  "v_res_fashmag1", price : 300, name : "Mags" },
+            [7] : { id :  "v_res_fashmagopen", price : 300, name : "Mags Open" },
+            [8] : { id :  "v_res_fa_magtidy", price : 300, name : "Mag Tidy" },
+            [9] : { id :  "v_res_fa_yogamat002", price : 300, name : "Yoga Mat 1" },
+            [10] : { id :  "v_res_fa_yogamat1", price : 300, name : "Yoga Mat 2" },
+            [11] : { id :  "v_res_fh_aftershavebox", price : 300, name : "Aftershave" },
+            [12] : { id :  "v_res_fh_flowersa", price : 300, name : "Flowers" },
+            [13] : { id :  "v_res_fh_fruitbowl", price : 300, name : "Fruitbowl" },
+            [14] : { id :  "v_res_fh_laundrybasket", price : 300, name : "Laundry Basket" },
+            [15] : { id :  "v_res_fh_pouf", price : 300, name : "Pouf" },
+            [16] : { id :  "v_res_fh_sculptmod", price : 300, name : "Sculpture" },
+            [17] : { id :  "v_res_j_magrack", price : 300, name : "Mag Rack" },
+            [18] : { id :  "v_res_jewelbox", price : 300, name : "Jewel Box" },
+            [19] : { id :  "v_res_mbbin", price : 300, name : "Bin" },
+            [20] : { id :  "v_res_mbowlornate", price : 300, name : "Ornate Bowl" },
+            [21] : { id :  "v_res_mbronzvase", price : 300, name : "Bronze Vase" },
+            [22] : { id :  "v_res_mchalkbrd", price : 300, name : "Chalk Board" },
+            [23] : { id :  "v_res_mddresser", price : 300, name : "Dresser" },
+            [24] : { id :  "v_res_mplinth", price : 300, name : "Linth" },
+            [25] : { id :  "v_res_mp_ashtrayb", price : 300, name : "Ashtray" },
+            [26] : { id :  "v_res_m_candle", price : 300, name : "Candle" },
+            [27] : { id :  "v_res_m_candlelrg", price : 300, name : "Candle Large" },
+            [28] : { id :  "v_res_m_kscales", price : 300, name : "Scales" },
+            [29] : { id :  "v_res_tt_bedpillow", price : 300, name : "Bed Pillow" },
+          },
+
+          general2 : {
+            [1] : { id :  "prop_a4_pile_01", price : 100, name : "A4 Pile" },
+            [2] : { id :  "prop_amb_40oz_03", price : 100, name : "40 oz" },
+            [3] : { id :  "prop_amb_beer_bottle", price : 100, name : "Beer" },
+            [4] : { id :  "prop_aviators_01", price : 100, name : "Aviators" },
+            [5] : { id :  "prop_barry_table_detail", price : 100, name : "Detail" },
+            [6] : { id :  "prop_beer_box_01", price : 100, name : "Beers" },
+            [7] : { id :  "prop_binoc_01", price : 100, name : "Binoculars" },
+            [8] : { id :  "prop_blox_spray", price : 100, name : "Blox Spray" },
+            [9] : { id :  "prop_bongos_01", price : 100, name : "Bongos" },
+            [10] : { id :  "prop_bong_01", price : 100, name : "Bong" },
+            [11] : { id :  "prop_boombox_01", price : 100, name : "Boombox" },
+            [12] : { id :  "prop_bowl_crisps", price : 100, name : "Bowl Crisps" },
+            [13] : { id :  "prop_candy_pqs", price : 100, name : "Candy" },
+            [14] : { id :  "prop_carrier_bag_01", price : 100, name : "Carrier bag" },
+            [15] : { id :  "prop_ceramic_jug_01", price : 100, name : "Ceramic Jug" },
+            [16] : { id :  "prop_cigar_pack_01", price : 100, name : "Cigar Pack 1" },
+            [17] : { id :  "prop_cigar_pack_02", price : 100, name : "Cigar Pack 2" },
+            [18] : { id :  "prop_cs_beer_box", price : 100, name : "Beer Box 2" },
+            [19] : { id :  "prop_cs_binder_01", price : 100, name : "Binder" },
+            [20] : { id :  "prop_cs_bs_cup", price : 100, name : "Cup" },
+            [21] : { id :  "prop_cs_cashenvelope", price : 100, name : "Envelope" },
+            [22] : { id :  "prop_cs_champ_flute", price : 100, name : "Flute" },
+            [23] : { id :  "prop_cs_duffel_01", price : 100, name : "Duffel Bag" },
+            [24] : { id :  "prop_cs_dvd", price : 50, name : "DVD" },
+            [25] : { id :  "prop_cs_dvd_case", price : 50, name : "DVD Case" },
+            [26] : { id :  "prop_cs_film_reel_01", price : 100, name : "Film Reel" },
+            [27] : { id :  "prop_cs_ilev_blind_01", price : 100, name : "Blind" },
+            [28] : { id :  "p_ld_bs_bag_01", price : 100, name : "Bag" },
+            [29] : { id :  "prop_cs_ironing_board", price : 100, name : "Ironing Board" },
+            [30] : { id :  "prop_cs_katana_01", price : 100, name : "Katana" },
+            [31] : { id :  "prop_cs_kettle_01", price : 100, name : "Kettle" },
+            [32] : { id :  "prop_cs_lester_crate", price : 100, name : "Crate" },
+            [33] : { id :  "prop_cs_petrol_can", price : 100, name : "Petrol Can" },
+            [34] : { id :  "prop_cs_sack_01", price : 100, name : "Sack" },
+            [35] : { id :  "prop_cs_script_bottle_01", price : 100, name : "Script Bottle" },
+            [36] : { id :  "prop_cs_script_bottle", price : 100, name : "Script Bottle 2" },
+            [37] : { id :  "prop_cs_street_binbag_01", price : 100, name : "Bin Bag" },
+            [38] : { id :  "prop_cs_whiskey_bottle", price : 100, name : "Whiskey Bottle" },
+            [39] : { id :  "prop_sh_bong_01", price : 100, name : "Bong" },
+            [40] : { id :  "prop_peanut_bowl_01", price : 100, name : "Peanuts" },
+            [41] : { id :  "prop_tumbler_01", price : 100, name : "Tumbler" },
+
+          },
+          general3 : {
+            [1] : { id :  "v_ret_csr_bin", price : 100, name : "CSR Bin" },
+            [2] : { id :  "v_ret_fh_wickbskt", price : 100, name : "Basket" },
+            [3] : { id :  "v_ret_gc_bag01", price : 100, name : "GC Bag 1" },
+            [4] : { id :  "v_ret_gc_bag02", price : 100, name : "GC Bag 2" },
+            [5] : { id :  "v_ret_gc_bin", price : 100, name : "GC Bin" },
+            [6] : { id :  "v_ret_gc_cashreg", price : 100, name : "Cash Register" },
+            [7] : { id :  "v_ret_gc_chair01", price : 100, name : "GC Chair 01" },
+            [8] : { id :  "v_ret_gc_chair02", price : 100, name : "GC Chair 02" },
+            [9] : { id :  "v_ret_gc_clock", price : 100, name : "Clock" },
+            [10] : { id :  "v_ret_hd_prod1_", price : 100, name : "Prod 1" },
+            [11] : { id :  "v_ret_hd_prod2_", price : 100, name : "Prod 2" },
+            [12] : { id :  "v_ret_hd_prod3_", price : 100, name : "Prod 3" },
+            [13] : { id :  "v_ret_hd_prod4_", price : 100, name : "Prod 4" },
+            [14] : { id :  "v_ret_hd_prod5_", price : 100, name : "Prod 5" },
+            [15] : { id :  "v_ret_hd_prod6_", price : 100, name : "Prod 6" },
+            [16] : { id :  "v_ret_hd_unit1_", price : 100, name : "HD Unit 1" },
+            [17] : { id :  "v_ret_hd_unit2_", price : 100, name : "HD Unit 2" },
+            [18] : { id :  "v_ret_ml_fridge02", price : 100, name : "Fridge" },
+            [19] : { id :  "v_ret_ps_bag_01", price : 100, name : "Bag 1" },
+            [20] : { id :  "v_ret_ps_bag_02", price : 100, name : "Bag 2" },
+            [21] : { id :  "v_ret_ta_book1", price : 100, name : "Book 1" },
+            [22] : { id :  "v_ret_ta_book2", price : 100, name : "Book 2" },
+            [23] : { id :  "v_ret_ta_book3", price : 100, name : "Book 3" },
+            [24] : { id :  "v_ret_ta_book4", price : 100, name : "Book 4" },
+            [25] : { id :  "v_ret_ta_camera", price : 100, name : "Cam" },
+            [26] : { id :  "v_ret_ta_firstaid", price : 100, name : "First Aid" },
+            [27] : { id :  "v_ret_ta_hero", price : 100, name : "Hero" },
+            [28] : { id :  "v_ret_ta_mag1", price : 100, name : "Mag 1" },
+            [29] : { id :  "v_ret_ta_mag2", price : 100, name : "Mag 2" },
+            [30] : { id :  "v_ret_ta_skull", price : 100, name : "Skull" },
+            [31] : { id :  "prop_acc_guitar_01", price : 100, name : "Guitar" },
+            [32] : { id :  "prop_amb_handbag_01", price : 100, name : "Handbag" },
+            [33] : { id :  "prop_attache_case_01", price : 100, name : "Case" },
+            [34] : { id :  "prop_big_bag_01", price : 100, name : "Big Bag" },
+            [35] : { id :  "prop_bonesaw", price : 100, name : "Bonesaw" },
+            [36] : { id :  "prop_cs_fertilizer", price : 100, name : "Fertilizer" },
+            [37] : { id :  "prop_cs_shopping_bag", price : 100, name : "Shopping Bag" },
+            [38] : { id :  "prop_cs_vial_01", price : 100, name : "Vial" },
+            [39] : { id :  "prop_defilied_ragdoll_01", price : 100, name : "Ragdoll" }, 
+          },
+          general4 : {
+            [1] : { id :  "prop_dummy_01", price : 100, name : "Dummy" },
+            [2] : { id :  "prop_egg_clock_01", price : 100, name : "Egg Clock" },
+            [3] : { id :  "prop_el_guitar_01", price : 100, name : "E Guitar 1" },
+            [4] : { id :  "prop_el_guitar_02", price : 100, name : "E Guitar 2" },
+            [5] : { id :  "prop_el_guitar_03", price : 100, name : "E Guitar 2" },
+            [6] : { id :  "prop_feed_sack_01", price : 100, name : "Feed Sack" },
+            [7] : { id :  "prop_floor_duster_01", price : 100, name : "Floor Duster" },
+            [8] : { id :  "prop_fruit_basket", price : 100, name : "Fruit Basket" },
+            [9] : { id :  "prop_f_duster_02", price : 100, name : "Duster" },
+            [10] : { id :  "prop_grapes_02", price : 100, name : "Grapes" },
+            [11] : { id :  "prop_hotel_clock_01", price : 100, name : "Hotel Clock" },
+            [12] : { id :  "prop_idol_case_01", price : 100, name : "Idol Case" },
+            [13] : { id :  "prop_jewel_02a", price : 100, name : "Jewels" },
+            [14] : { id :  "prop_jewel_02b", price : 100, name : "Jewels" },
+            [15] : { id :  "prop_jewel_02c", price : 100, name : "Jewels" },
+            [16] : { id :  "prop_jewel_03a", price : 100, name : "Jewels" },
+            [17] : { id :  "prop_jewel_03b", price : 100, name : "Jewels" },
+            [18] : { id :  "prop_jewel_04a", price : 100, name : "Jewels" },
+            [19] : { id :  "prop_jewel_04b", price : 100, name : "Jewels" },
+            [20] : { id :  "prop_j_disptray_01", price : 100, name : "Display Tray" },
+            [21] : { id :  "prop_j_disptray_01b", price : 100, name : "Display Tray" },
+            [22] : { id :  "prop_j_disptray_02", price : 100, name : "Display Tray" },
+            [23] : { id :  "prop_j_disptray_03", price : 100, name : "Display Tray" },
+            [24] : { id :  "prop_j_disptray_04", price : 100, name : "Display Tray" },
+            [25] : { id :  "prop_j_disptray_04b", price : 100, name : "Display Tray" },
+            [26] : { id :  "prop_j_disptray_05", price : 100, name : "Display Tray" },
+            [27] : { id :  "prop_j_disptray_05b", price : 100, name : "Display Tray" },
+            [28] : { id :  "prop_ld_greenscreen_01", price : 100, name : "Green Screen" },
+            [29] : { id :  "prop_ld_handbag", price : 100, name : "Handbag" },
+            [30] : { id :  "prop_ld_jerrycan_01", price : 100, name : "Jerry Can" },
+            [31] : { id :  "prop_ld_keypad_01", price : 100, name : "Keypad 1" },
+            [32] : { id :  "prop_ld_keypad_01b", price : 100, name : "Keypad 2" },
+            [33] : { id :  "prop_ld_suitcase_01", price : 100, name : "Suitcase 1" },
+            [34] : { id :  "prop_ld_suitcase_02", price : 100, name : "Suitcase 2" },
+            [35] : { id :  "hei_p_attache_case_shut", price : 100, name : "Suitcase 3"},
+            [36] : { id :  "prop_mr_rasberryclean", price : 100, name : "Rasberry Clean" },
+            [37] : { id :  "prop_paper_bag_01", price : 100, name : "Paper Bag" },
+            [38] : { id :  "prop_shopping_bags01", price : 100, name : "Shopping Bags" },
+            [39] : { id :  "prop_shopping_bags02", price : 100, name : "Shopping Bags 2" },
+            [40] : { id :  "prop_yoga_mat_01", price : 100, name : "Yoga Mat 1" },
+            [41] : { id :  "prop_yoga_mat_02", price : 100, name : "Yoga Mat 2" },
+            [42] : { id :  "prop_yoga_mat_03", price : 100, name : "Yoga Mat 3" },
+            [43] : { id :  "p_ld_sax", price : 100, name : "Sax" },
+            [44] : { id :  "p_ld_soc_ball_01", price : 100, name : "SOCCER Ball" },
+            [45] : { id :  "p_watch_01", price : 100, name : "Watch 1" },
+            [46] : { id :  "p_watch_02", price : 100, name : "Watch 2" },
+            [47] : { id :  "p_watch_03", price : 100, name : "Watch 3" },
+            [48] : { id :  "p_watch_04", price : 100, name : "Watch 4" },
+            [49] : { id :  "p_watch_05", price : 100, name : "Watch 5" },
+            [51] : { id :  "p_watch_06", price : 100, name : "Watch 6" },
+          },
+
+          small : {
+            [1] : { id :  "v_res_r_figcat", price : 300, name : "Fig Cat" },
+            [2] : { id :  "v_res_r_figclown", price : 300, name : "Fig Clown" },
+            [3] : { id :  "v_res_r_figauth2", price : 300, name : "Fig Auth" },
+            [4] : { id :  "v_res_r_figfemale", price : 300, name : "Fig Female" },
+            [5] : { id :  "v_res_r_figflamenco", price : 300, name : "Fig Flamenco" },
+            [6] : { id :  "v_res_r_figgirl", price : 300, name : "Fig Girl" },
+            [7] : { id :  "v_res_r_figgirlclown", price : 300, name : "Fig Girl Clown" },
+            [8] : { id :  "v_res_r_figoblisk", price : 300, name : "Fig Oblisk" },
+            [9] : { id :  "v_res_r_figpillar", price : 300, name : "Fig Pillar" },
+            [10] : { id :  "v_res_r_teapot", price : 300, name : "Teapot" },
+            [11] : { id :  "v_res_sculpt_dec", price : 300, name : "Sculpture 1" },
+            [12] : { id :  "v_res_sculpt_decd", price : 300, name : "Sculpture 2" },
+            [13] : { id :  "v_res_sculpt_dece", price : 300, name : "Sculpture 3" },
+            [14] : { id :  "v_res_sculpt_decf", price : 300, name : "Sculpture 4" },
+            [15] : { id :  "v_res_skateboard", price : 300, name : "Skateboard" },
+            [16] : { id :  "v_res_sketchpad", price : 300, name : "Sketchpad" },
+            [17] : { id :  "v_res_tissues", price : 300, name : "Tissues" },
+            [18] : { id :  "v_res_tre_basketmess", price : 300, name : "Basket" },
+            [19] : { id :  "v_res_tre_bin", price : 300, name : "Bin" },
+            [20] : { id :  "v_res_tre_cushiona", price : 300, name : "Cushion 1" },
+            [21] : { id :  "v_res_tre_cushionb", price : 300, name : "Cushion 2" },
+            [22] : { id :  "v_res_tre_cushionc", price : 300, name : "Cushion 3" },
+            [23] : { id :  "v_res_tre_cushiond", price : 300, name : "Cushion 4" },
+            [24] : { id :  "v_res_tre_cushnscuzb", price : 300, name : "Cushion 5" },
+            [25] : { id :  "v_res_tre_cushnscuzd", price : 300, name : "Cushion 6" },
+            [26] : { id :  "v_res_tre_fruitbowl", price : 300, name : "Fruitbowl" },
+            [27] : { id :  "v_med_p_sideboard", price : 300, name : "Sideboard" },
+            [28] : { id :  "prop_idol_01", price : 100, name : "Idol 1" },
+            
+
+          },
+
+          storage : {
+            [1] : { id :  "v_res_cabinet", price : 2500, name : "Cabinet Large" },
+            [2] : { id :  "v_res_d_dressingtable", price : 2500, name : "Dressing Table" },
+            [3] : { id :  "v_res_d_sideunit", price : 2500, name : "Side Unit" },
+            [4] : { id :  "v_res_fh_sidebrddine", price : 2500, name : "Side Unit" },
+            [5] : { id :  "v_res_fh_sidebrdlngb", price : 2500, name : "Side Unit" },
+            [6] : { id :  "v_res_mbbedtable", price : 2500, name : "Bed Unit" },
+            [7] : { id :  "v_res_j_tvstand", price : 2500, name : "Tv Unit" },
+            [8] : { id :  "v_res_mbdresser", price : 2500, name : "Dresser Unit" },
+            [9] : { id :  "v_res_mbottoman", price : 2500, name : "Bottoman Unit" },
+            [10] : { id :  "v_res_mconsolemod", price : 2500, name : "Console Unit" },
+            [11] : { id :  "v_res_mcupboard", price : 2500, name : "Cupboard Unit" },
+            [12] : { id :  "v_res_mdchest", price : 2500, name : "Chest Unit" },
+            [13] : { id :  "v_res_msoncabinet", price : 2500, name : "Mason Unit" },
+            [14] : { id :  "v_res_m_armoire", price : 2500, name : "Armoire Unit" },
+            [15] : { id :  "v_res_m_sidetable", price : 2500, name : "Side Unit" },
+            [16] : { id :  "v_res_son_desk", price : 2500, name : "Desk Unit" },
+            [17] : { id :  "v_res_tre_bedsidetable", price : 2500, name : "Side Unit" },
+            [18] : { id :  "v_res_tre_bedsidetableb", price : 2500, name : "Side Unit 2" },
+            [19] : { id :  "v_res_tre_smallbookshelf", price : 2500, name : "Book Unit" },
+            [20] : { id :  "v_res_tre_storagebox", price : 2500, name : "Box Unit" },
+            [21] : { id :  "v_res_tre_storageunit", price : 2500, name : "Storage Unit" },
+            [22] : { id :  "v_res_tre_wardrobe", price : 2500, name : "Wardrobe Unit" },
+            [23] : { id :  "v_res_tre_wdunitscuz", price : 2500, name : "Wood Unit" },
+            [24] : { id :  "prop_devin_box_closed", price : 100, name : "Bean Bag 1" },
+            [25] : { id :  "prop_mil_crate_01", price : 100, name : "Mil Crate 1" },
+            [26] : { id :  "prop_mil_crate_02", price : 100, name : "Mil Crate 2" },
+            [27] : { id :  "prop_ld_int_safe_01", price : 1100, name : "Safe" },
+          },
+
+          electronics : {
+            [1] : { id :  "prop_trailr_fridge", price : 300, name : "Old Fridge" },
+            [2] : { id :  "v_res_fh_speaker", price : 300, name : "Speaker" },
+            [3] : { id :  "v_res_fh_speakerdock", price : 300, name : "Speaker Dock" },
+            [4] : { id :  "v_res_fh_bedsideclock", price : 300, name : "Bedside Clock" },
+            [5] : { id :  "v_res_fa_phone", price : 300, name : "Phone" },
+            [6] : { id :  "v_res_fh_towerfan", price : 300, name : "Tower Fan" },
+            [7] : { id :  "v_res_fa_fan", price : 300, name : "Fan" },
+            [8] : { id :  "v_res_lest_bigscreen", price : 300, name : "Bigscreen" },
+            [9] : { id :  "v_res_lest_monitor", price : 300, name : "Monitor" },
+            [10] : { id :  "v_res_tre_mixer", price : 300, name : "Mixer" },
+            [11] : { id :  "prop_cs_cctv", price : 100, name : "CCTV" },
+            [12] : { id :  "prop_ld_lap_top", price : 100, name : "Laptop" },
+            [13] : { id :  "prop_ld_monitor_01", price : 100, name : "Monitor" },
+
+          },
+
+
+          lighting : {
+            [1] : { id :  "v_corp_cd_desklamp", price : 100, name : "Desk Corp Lamp" },
+            [2] : { id :  "v_res_desklamp", price : 100, name : "Desk Lamp" },
+            [3] : { id :  "v_res_d_lampa", price : 100, name : "Lamp AA" },
+            [4] : { id :  "v_res_fa_lamp1on", price : 100, name : "Lamp 1" },
+            [5] : { id :  "v_res_fh_floorlamp", price : 100, name : "Floor Lamp" },
+            [6] : { id :  "v_res_fh_lampa_on", price : 100, name : "Lamp 2" },
+            [7] : { id :  "v_res_j_tablelamp1", price : 100, name : "Table Lamp" },
+            [8] : { id :  "v_res_j_tablelamp2", price : 100, name : "Table Lamp 2" },
+            [9] : { id :  "v_res_mdbedlamp", price : 100, name : "Bed Lamp" },
+            [10] : { id :  "v_res_mplanttongue", price : 100, name : "Plant Tongue Lamp" },
+            [11] : { id :  "v_res_mtblelampmod", price : 100, name : "Table Lamp 3" },
+            [12] : { id :  "v_res_m_lampstand", price : 100, name : "Lamp Stand" },
+            [13] : { id :  "v_res_m_lampstand2", price : 100, name : "Lamp Stand 2" },
+            [14] : { id :  "v_res_m_lamptbl", price : 100, name : "Table Lamp 4" },
+            [15] : { id :  "v_res_tre_lightfan", price : 100, name : "Light Fan" },
+            [16] : { id :  "v_res_tre_talllamp", price : 100, name : "Tall Lamp" },
+            [17] : { id :  "v_ret_fh_walllighton", price : 100, name : "Wall Light" },
+            [18] : { id :  "v_ret_gc_lamp", price : 100, name : "GC Lamp" },
+
+            [19] : { id :  "prop_dummy_light", price : 100, name : "Flickering Light" },
+            [20] : { id :  "prop_ld_cont_light_01", price : 100, name : "Side Wall Light" },
+            [21] : { id :  "V_44_D_emis", price : 100, name : "Test Light" },
+
+
+
+          },
+
+
+          tables : {
+            [1] : { id :  "v_res_d_coffeetable", price : 500, name : "Coffee Table 1" },
+            [2] : { id :  "v_res_d_roundtable", price : 500, name : "Round Table" },
+            [3] : { id :  "v_res_d_smallsidetable", price : 500, name : "Small Side Table" },
+            [4] : { id :  "v_res_fh_coftablea", price : 500, name : "Table A" },
+            [5] : { id :  "v_res_fh_coftableb", price : 500, name : "Table B" },
+            [6] : { id :  "v_res_fh_coftbldisp", price : 500, name : "Table C" },
+            [7] : { id :  "v_res_fh_diningtable", price : 500, name : "Dining Table" },
+            [8] : { id :  "v_res_j_coffeetable", price : 500, name : "Coffee Table 2" },
+            [9] : { id :  "v_res_j_lowtable", price : 500, name : "Low Table" },
+            [10] : { id :  "v_res_mdbedtable", price : 500, name : "Bed Table" },
+            [11] : { id :  "v_res_mddesk", price : 500, name : "Desk" },
+            [12] : { id :  "v_res_msidetblemod", price : 500, name : "Side Table" },
+            [13] : { id :  "v_res_m_console", price : 500, name : "Console Table" },
+            [14] : { id :  "v_res_m_dinetble_replace", price : 500, name : "Dining Table 2" },
+            [15] : { id :  "v_res_m_h_console", price : 500, name : "Console H Table" },
+            [16] : { id :  "v_res_m_stool", price : 500, name : "Stool?" },
+            [17] : { id :  "v_res_tre_sideboard", price : 500, name : "Sideboard Table" },
+            [18] : { id :  "v_res_tre_table2", price : 500, name : "Table 2" },
+            [19] : { id :  "v_res_tre_tvstand", price : 500, name : "Tv Table" },
+            [20] : { id :  "v_res_tre_tvstand_tall", price : 500, name : "Tv Table Tall" },
+            [21] : { id :  "v_med_p_coffeetable", price : 500, name : "Med Coffee Table" },
+            [22] : { id :  "v_med_p_desk", price : 500, name : "Med Desk" },
+            [23] : { id :  "prop_yacht_table_01", price : 100, name : "Yacht Table 1" },
+            [24] : { id :  "prop_yacht_table_02", price : 100, name : "Yacht Table 2" },
+            [25] : { id :  "prop_yacht_table_03", price : 100, name : "Yacht Table 3" },
+            [26] : { id :  "v_ret_csr_table", price : 100, name : "CSR Table" },
+
+          },
+
+          plants : {
+            [1] : { id :  "prop_fib_plant_01", price : 150, name : "Plant Fib" },
+            [2] : { id :  "v_corp_bombplant", price : 170, name : "Plant Bomb" },		
+            [3] : { id :  "v_res_mflowers", price : 170, name : "Plant Flowers" },	
+            [4] : { id :  "v_res_mvasechinese", price : 170, name : "Plant Chinese" },	
+            [5] : { id :  "v_res_m_bananaplant", price : 170, name : "Plant Banana" },	
+            [6] : { id :  "v_res_m_palmplant1", price : 170, name : "Plant Palm" },	
+            [7] : { id :  "v_res_m_palmstairs", price : 170, name : "Plant Palm 2" },	
+            [8] : { id :  "v_res_m_urn", price : 170, name : "Plant Urn" },	
+            [9] : { id :  "v_res_rubberplant", price : 170, name : "Plant Rubber" },	
+            [10] : { id :  "v_res_tre_plant", price : 170, name : "Plant" },	
+            [11] : { id :  "v_res_tre_tree", price : 170, name : "Plant Tree" },	
+            [12] : { id :  "v_med_p_planter", price : 170, name : "Planter" },	
+            [13] : { id :  "v_ret_flowers", price : 100, name : "Flowers" },
+            [14] : { id :  "v_ret_j_flowerdisp", price : 100, name : "Flowers 1" },
+            [15] : { id :  "v_ret_j_flowerdisp_white", price : 100, name : "Flowers 2" },
+          },
+
+          kitchen : {
+            [1] : { id :  "prop_washer_01", price : 150, name : "Washer 1" },
+            [2] : { id :  "prop_washer_02", price : 150, name : "Washer 2" },
+            [3] : { id :  "prop_washer_03", price : 150, name : "Washer 3" },
+            [4] : { id :  "prop_washing_basket_01", price : 150, name : "Washing Basket" },
+            [5] : { id :  "v_res_fridgemoda", price : 150, name : "Fridge 1" },
+            [6] : { id :  "v_res_fridgemodsml", price : 150, name : "Fridge 2" },
+            [7] : { id :  "prop_fridge_01", price : 150, name : "Fridge 3" },
+            [8] : { id :  "prop_fridge_03", price : 150, name : "Fridge 4" },
+            [9] : { id :  "prop_cooker_03", price : 150, name : "Cooker" },
+            [10] : { id :  "prop_micro_01", price : 150, name : "Microwave 1" },
+            [11] : { id :  "prop_micro_02", price : 150, name : "Microwave 2" },
+            [12] : { id :  "prop_wok", price : 150, name : "Wok" },
+            [13] : { id :  "v_res_cakedome", price : 150, name : "Cake Plate" },
+            [14] : { id :  "v_res_fa_chopbrd", price : 150, name : "Chopping Board" },
+            [15] : { id :  "v_res_mutensils", price : 150, name : "Utensils" },
+            [16] : { id :  "v_res_pestle", price : 150, name : "Pestle" },
+            [17] : { id :  "v_ret_ta_paproll", price : 150, name : "PaperRoll 1" },
+            [18] : { id :  "v_ret_ta_paproll2", price : 150, name : "PaperRoll 2" },
+            [19] : { id :  "v_ret_fh_pot01", price : 150, name : "Pot 1" },
+            [20] : { id :  "v_ret_fh_pot02", price : 150, name : "Pot 2" },
+            [21] : { id :  "v_ret_fh_pot05", price : 150, name : "Pot 3" },
+            [22] : { id :  "prop_pot_03", price : 150, name : "Pot 4" },
+            [23] : { id :  "prop_pot_04", price : 150, name : "Pot 5" },
+            [24] : { id :  "prop_pot_05", price : 150, name : "Pot 6" },
+            [25] : { id :  "prop_pot_06", price : 150, name : "Pot 7" },
+            [26] : { id :  "prop_pot_rack", price : 150, name : "Pot Rack" },
+            [27] : { id :  "prop_kitch_juicer", price : 150, name : "Juicer" },
+
+          },
+
+
+          bathroom : {
+            [1] : { id :  "prop_ld_toilet_01", price : 100, name : "Toilet 1" },
+            [2] : { id :  "prop_toilet_01", price : 100, name : "Toilet 2" },
+            [3] : { id :  "prop_toilet_02", price : 100, name : "Toilet 3" },
+            [4] : { id :  "prop_sink_02", price : 100, name : "Sink 1" },
+            [5] : { id :  "prop_sink_04", price : 100, name : "Sink 2" },
+            [6] : { id :  "prop_sink_05", price : 100, name : "Sink 3" },
+            [7] : { id :  "prop_sink_06", price : 100, name : "Sink 4" },
+            [8] : { id :  "prop_soap_disp_01", price : 100, name : "Soap Dispenser" },
+            [9] : { id :  "prop_shower_rack_01", price : 100, name : "Shower Rack" },
+            [10] : { id :  "prop_handdry_01", price : 100, name : "Hand Dryer 1" },
+            [11] : { id :  "prop_handdry_02", price : 100, name : "Hand Dryer 2" },
+            [12] : { id :  "prop_towel_rail_01", price : 100, name : "Towel Rail 1" },
+            [13] : { id :  "prop_towel_rail_02", price : 100, name : "Towel Rail 2" },
+            [14] : { id :  "prop_towel_01", price : 100, name : "Towel 1" },
+            [15] : { id :  "v_res_mbtowel", price : 100, name : "Towel 2" },
+            [16] : { id :  "v_res_mbtowelfld", price : 100, name : "Towel 3" },
+            [17] : { id :  "v_res_mbath", price : 100, name : "Bath" },
+            [18] : { id :  "v_res_mbsink", price : 100, name : "Sink" },
+
+          },
+
+          medical : {
+            [1] : { id :  "v_med_barrel", price : 750, name : "Barrel" },
+            [2] : { id :  "v_med_apecrate", price : 750, name : "Ape Crate" },
+            [3] : { id :  "v_med_apecratelrg", price : 750, name : "Ape Crate Large" },
+            [4] : { id :  "v_med_bed1", price : 750, name : "Bed 1" },
+            [5] : { id :  "v_med_bed2", price : 750, name : "Bed 2" },
+            [6] : { id :  "v_med_bedtable", price : 750, name : "Bed Table" },
+            [7] : { id :  "v_med_bench1", price : 750, name : "Bench 1" },
+            [8] : { id :  "v_med_bench2", price : 750, name : "Bench 2" },
+            [9] : { id :  "v_med_benchcentr", price : 750, name : "Bench Center" },
+            [10] : { id :  "v_med_benchset1", price : 750, name : "Bench Set" },
+            [11] : { id :  "v_med_bigtable", price : 750, name : "Big Table" },
+            [12] : { id :  "v_med_bin", price : 150, name : "Bin" },
+            [13] : { id :  "v_med_centrifuge1", price : 750, name : "Centrifuge" },
+            [14] : { id :  "v_med_cooler", price : 750, name : "Cooler" },
+            [15] : { id :  "v_med_cor_ceilingmonitor", price : 750, name : "Monitor" },
+            [16] : { id :  "v_med_cor_autopsytbl", price : 750, name : "Autopsy Table" },
+            [17] : { id :  "v_med_cor_cembin", price : 750, name : "Bin" },
+            [18] : { id :  "v_med_cor_cemtrolly2", price : 750, name : "Trolley" },
+            [19] : { id :  "v_med_cor_chemical", price : 750, name : "Chem" },
+            [20] : { id :  "v_med_cor_emblmtable", price : 750, name : "BLM Table" },
+            [21] : { id :  "v_med_cor_fileboxa", price : 750, name : "File Box" },
+            [22] : { id :  "v_med_cor_filingcab", price : 750, name : "File Cab" },
+            [23] : { id :  "v_med_cor_hose", price : 750, name : "Hose" },
+            [24] : { id :  "v_med_cor_largecupboard", price : 750, name : "Large Cupboard" },
+            [25] : { id :  "v_med_cor_lightbox", price : 750, name : "Lightbox" },
+            [26] : { id :  "v_med_cor_medstool", price : 750, name : "Medstool" },
+            [27] : { id :  "v_med_cor_minifridge", price : 750, name : "Minifridge" },
+            [28] : { id :  "v_med_cor_papertowels", price : 750, name : "Papertowels" },
+            [29] : { id :  "v_med_cor_photocopy", price : 750, name : "Photocopy" },
+            [30] : { id :  "v_med_cor_tvstand", price : 750, name : "TV Stand" },
+            [31] : { id :  "v_med_cor_wallunita", price : 750, name : "Wall Unit" },
+            [32] : { id :  "v_med_examlight", price : 750, name : "Exam light" },
+            [33] : { id :  "v_med_gastank", price : 750, name : "Gas Tank" },
+            [34] : { id :  "v_med_hazmatscan", price : 750, name : "Hazmat Scan" },
+            [35] : { id :  "v_med_hospheadwall1", price : 750, name : "Head Wall" },
+            [36] : { id :  "v_med_hospseating1", price : 750, name : "Seating" },
+            [37] : { id :  "v_med_hosptable", price : 750, name : "Hosp Table" },
+            [38] : { id :  "v_med_latexgloveboxblue", price : 50, name : "Glove Box" },
+            [39] : { id :  "v_med_medwastebin", price : 750, name : "Wastebin" },
+            [40] : { id :  "v_med_oscillator3", price : 750, name : "Oscillator" },
+            [41] : { id :  "prop_ld_health_pack", price : 100, name : "Health Pack" },
+          },
+          },
+          top:"20px",
+          left:"20px",
+        })
+        SetTransform({
+          position:{x:10,y:15,z:-5},
+          rotation:{x:0,y:90,z:0},
+        })
+        OpenEdit({name:"lol",price:"whaa"})
+        Overlay(true,"test",{r:255,g:0,b:0,a:0})
+      }
+
+      SetAlpha(0);
+   
+      
+    </script> 
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js" type="text/javascript"></script>
+  </body>
+</html>
+
+
+
+<!--
+  {
+    ["sofas"] = {
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+      {id=id,name=name,price=price}
+    }
+  }
+
+  {
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+    ["id"] = { id :  "id", price : 500, name : "Coffee Table 1" }
+
+  }
+
+
+   /* testing */
+      Init({
+        items:{
+          sofas : {
+            [1] :  { id : "miss_rub_couch_01", price : 300, name : "Old Flowered Couch" },
+            [2] :  { id : "prop_fib_3b_bench", price : 700, name : "3 Seat Chair" },
+            [3] :  { id : "prop_ld_farm_chair01", price : 250, name : "Old 1 Seat Couch" },
+            [4] :  { id : "prop_ld_farm_couch01", price : 300, name : "Old 3 Seat Couch" },
+            [5] :  { id : "prop_ld_farm_couch02", price : 300, name : "Old Striped Couch" },
+            [6] :  { id : "v_res_d_armchair", price : 300, name : "Old 1 Seat Couch Yellow" },
+            [7] :  { id : "v_res_fh_sofa", price : 3700, name : "Corner Sofa" },
+            [8] :  { id : "v_res_mp_sofa", price : 3700, name : "Corner Sofa 2" },
+            [9] :  { id : "v_res_d_sofa", price : 700, name : "Sofa 1" },
+            [10] : { id : "v_res_j_sofa", price : 700, name : "Sofa 2" },
+            [11] : { id : "v_res_mp_stripchair", price : 700, name : "Sofa 3" },
+            [12] : { id : "v_res_m_h_sofa_sml", price : 700, name : "Sofa 4" },
+            [13] : { id : "v_res_r_sofa", price : 700, name : "Sofa 5" },
+            [14] : { id : "v_res_tre_sofa", price : 700, name : "Sofa 6" },
+            [15] : { id : "v_res_tre_sofa_mess_a", price : 700, name : "Sofa 7" },
+            [16] : { id : "v_res_tre_sofa_mess_b", price : 700, name : "Sofa 8" },
+            [17] : { id : "v_res_tre_sofa_mess_c", price : 700, name : "Sofa 9" },
+            [18] : { id : "v_res_tt_sofa", price : 700, name : "Sofa 10" },
+            [19] : { id : "prop_rub_couch02", price : 700, name : "Sofa 11" },
+          },
+          chairs : {
+            [1] :  { id : "v_res_d_highchair", price : 700, name : "High Chair" },
+            [2] :  { id : "v_res_fa_chair01", price : 700, name : "Chair" },
+            [3] :  { id : "v_res_fa_chair02", price : 700, name : "Chair" },
+            [4] :  { id : "v_res_fh_barcchair", price : 700, name : "High Chair" },
+            [5] :  { id : "v_res_fh_dineeamesa", price : 700, name : "Dine Chair 1" },
+            [6] :  { id : "v_res_fh_dineeamesb", price : 700, name : "Dine Chair 2" },
+            [7] :  { id : "v_res_fh_dineeamesc", price : 700, name : "Dine Chair 3" },
+            [8] :  { id : "v_res_fh_easychair", price : 700, name : "Chair" },
+            [9] :  { id : "v_res_fh_kitnstool", price : 700, name : "Stool" },
+            [10] : { id : "v_res_fh_singleseat", price : 700, name : "High Chair" },
+            [11] : { id : "v_res_jarmchair", price : 700, name : "Arm Chair" },
+            [12] : { id : "v_res_j_dinechair", price : 700, name : "Dining Chair" },
+            [13] : { id : "v_res_j_stool", price : 700, name : "Stool" },
+            [14] : { id : "v_res_mbchair", price : 700, name : "MB Chair" },
+            [15] : { id : "v_res_m_armchair", price : 700, name : "Arm Chair" },
+            [16] : { id : "v_res_m_dinechair", price : 700, name : "Dine Chair" },
+            [17] : { id : "v_res_study_chair", price : 700, name : "Study Chair" },
+            [18] : { id : "v_res_trev_framechair", price : 700, name : "Frame Chair" },
+            [19] : { id : "v_res_tre_chair", price : 700, name : "Chair" },
+            [20] : { id : "v_res_tre_officechair", price : 700, name : "Office Chair" },
+            [21] : { id : "v_res_tre_stool", price : 700, name : "Stool" },
+            [22] : { id : "v_res_tre_stool_leather", price : 700, name : "Stool Leather" },
+            [23] : { id : "v_res_tre_stool_scuz", price : 700, name : "Stool Scuz" },
+            [24] : { id : "v_med_p_deskchair", price : 700, name : "Desk Chair" },
+            [25] : { id : "v_med_p_easychair", price : 700, name : "Easy Chair" },
+            [26] : { id : "v_med_whickerchair1", price : 700, name : "Whicker Chair" },
+            [27] : { id : "prop_direct_chair_01", price : 700, name : "Direct Chair 1" },
+            [28] : { id : "prop_direct_chair_02", price : 700, name : "Direct Chair 2" },
+            [29] : { id : "prop_yacht_lounger", price : 700, name : "Yacht Seat 1" },
+            [30] : { id : "prop_yacht_seat_01", price : 700, name : "Yacht Seat 2" },
+            [31] : { id : "prop_yacht_seat_02", price : 700, name : "Yacht Seat 3" },
+            [32] : { id : "prop_yacht_seat_03", price : 700, name : "Yacht Seat 4" },
+            [33] : { id : "v_ret_chair_white", price : 100, name : "White Chair" },
+            [34] : { id : "v_ret_chair", price : 100, name : "Chair" },
+            [35] : { id : "v_ret_ta_stool", price : 100, name : "TA Stool" },
+            [36] : { id : "prop_cs_office_chair", price : 100, name : "Office Chair" },
+          },
+        },
+        top:"20px",
+        left:"20px",
+      })
+   
+SendNUIMessage({
+  items = {},
+  enabled = true,
+  onOpen            = ""
+  onClose           = ""
+  onCancel          = ""
+  onSelect          = ""
+  onPlace           = ""
+  onStartAim             = ""
+  onReposition      = ""
+  onRepositionStart = ""
+  top               = "300px"
+  left              = "20px"
+})
+
+--create lookuptable and dropdowntable
+--dropdowntable will be passed ot UI
+local lookuptable = {}
+local dropdowntable = {}
+
+--loop over all categories
+for category,v in pairs(all) do 
+  dropdowntable[category] = {}
+
+  --loop over all items
+  for o,k in pairs(v) do
+  
+    --use item.object as id
+    local id = k.object or "none"
+    local name = k.name or "none"
+
+    --add to lookuptable ( 1d arr )
+    lookuptable[id] = k
+
+    --add to dropdown table 
+    table.insert(dropdowntable[category],{id = id,name = name})
+  end 
+end 
+
+--onselect 
+function(id,name)
+  local item = lookuptable and lookuptable[id] or false
+  if item 
+  then 
+    local price = item.price or "0"
+  end 
+end 
+
+  var all = {
+
+        sofas : {
+          [1] : { id :  "miss_rub_couch_01", price : 300, name : "Old Flowered Couch" },
+          [2] : { id :  "prop_fib_3b_bench", price : 700, name : "3 Seat Chair" },
+          [3] : { id :  "prop_ld_farm_chair01", price : 250, name : "Old 1 Seat Couch" },
+          [4] : { id :  "prop_ld_farm_couch01", price : 300, name : "Old 3 Seat Couch" },
+          [5] : { id :  "prop_ld_farm_couch02", price : 300, name : "Old Striped Couch" },
+          [6] : { id :  "v_res_d_armchair", price : 300, name : "Old 1 Seat Couch Yellow" },
+          [7] : { id :  "v_res_fh_sofa", price : 3700, name : "Corner Sofa" },
+          [8] : { id :  "v_res_mp_sofa", price : 3700, name : "Corner Sofa 2" },
+          [9] : { id :  "v_res_d_sofa", price : 700, name : "Sofa 1" },
+          [10] : { id :  "v_res_j_sofa", price : 700, name : "Sofa 2" },
+          [11] : { id :  "v_res_mp_stripchair", price : 700, name : "Sofa 3" },
+          [12] : { id :  "v_res_m_h_sofa_sml", price : 700, name : "Sofa 4" },
+          [13] : { id :  "v_res_r_sofa", price : 700, name : "Sofa 5" },
+          [14] : { id :  "v_res_tre_sofa", price : 700, name : "Sofa 6" },
+          [15] : { id :  "v_res_tre_sofa_mess_a", price : 700, name : "Sofa 7" },
+          [16] : { id :  "v_res_tre_sofa_mess_b", price : 700, name : "Sofa 8" },
+          [17] : { id :  "v_res_tre_sofa_mess_c", price : 700, name : "Sofa 9" },
+          [18] : { id :  "v_res_tt_sofa", price : 700, name : "Sofa 10" },
+          [19] : { id :  "prop_rub_couch02", price : 700, name : "Sofa 11" },
+        },
+
+        chairs : {
+          [1] : { id :  "v_res_d_highchair", price : 700, name : "High Chair" },
+          [2] : { id :  "v_res_fa_chair01", price : 700, name : "Chair" },
+          [3] : { id :  "v_res_fa_chair02", price : 700, name : "Chair" },
+          [4] : { id :  "v_res_fh_barcchair", price : 700, name : "High Chair" },
+          [5] : { id :  "v_res_fh_dineeamesa", price : 700, name : "Dine Chair 1" },
+          [6] : { id :  "v_res_fh_dineeamesb", price : 700, name : "Dine Chair 2" },
+          [7] : { id :  "v_res_fh_dineeamesc", price : 700, name : "Dine Chair 3" },
+          [8] : { id :  "v_res_fh_easychair", price : 700, name : "Chair" },
+          [9] : { id :  "v_res_fh_kitnstool", price : 700, name : "Stool" },
+          [10] : { id :  "v_res_fh_singleseat", price : 700, name : "High Chair" },
+          [11] : { id :  "v_res_jarmchair", price : 700, name : "Arm Chair" },
+          [12] : { id :  "v_res_j_dinechair", price : 700, name : "Dining Chair" },
+          [13] : { id :  "v_res_j_stool", price : 700, name : "Stool" },
+          [14] : { id :  "v_res_mbchair", price : 700, name : "MB Chair" },
+          [15] : { id :  "v_res_m_armchair", price : 700, name : "Arm Chair" },
+          [16] : { id :  "v_res_m_dinechair", price : 700, name : "Dine Chair" },
+          [17] : { id :  "v_res_study_chair", price : 700, name : "Study Chair" },
+          [18] : { id :  "v_res_trev_framechair", price : 700, name : "Frame Chair" },
+          [19] : { id :  "v_res_tre_chair", price : 700, name : "Chair" },
+          [20] : { id :  "v_res_tre_officechair", price : 700, name : "Office Chair" },
+          [21] : { id :  "v_res_tre_stool", price : 700, name : "Stool" },
+          [22] : { id :  "v_res_tre_stool_leather", price : 700, name : "Stool Leather" },
+          [23] : { id :  "v_res_tre_stool_scuz", price : 700, name : "Stool Scuz" },
+          [24] : { id :  "v_med_p_deskchair", price : 700, name : "Desk Chair" },
+          [25] : { id :  "v_med_p_easychair", price : 700, name : "Easy Chair" },
+          [26] : { id :  "v_med_whickerchair1", price : 700, name : "Whicker Chair" },
+          [27] : { id :  "prop_direct_chair_01", price : 700, name : "Direct Chair 1" },
+          [28] : { id :  "prop_direct_chair_02", price : 700, name : "Direct Chair 2" },
+          [29] : { id :  "prop_yacht_lounger", price : 700, name : "Yacht Seat 1" },
+          [30] : { id :  "prop_yacht_seat_01", price : 700, name : "Yacht Seat 2" },
+          [31] : { id :  "prop_yacht_seat_02", price : 700, name : "Yacht Seat 3" },
+          [32] : { id :  "prop_yacht_seat_03", price : 700, name : "Yacht Seat 4" },
+          [33] : { id :  "v_ret_chair_white", price : 100, name : "White Chair" },
+          [34] : { id :  "v_ret_chair", price : 100, name : "Chair" },
+          [35] : { id :  "v_ret_ta_stool", price : 100, name : "TA Stool" },
+          [36] : { id :  "prop_cs_office_chair", price : 100, name : "Office Chair" },
+        },
+
+        beds : {
+          [1] : { id :  "v_res_d_bed", price : 700, name : "D Bed" },	
+          [2] : { id :  "v_res_lestersbed", price : 700, name : "L Bed" },	
+          [3] : { id :  "v_res_mbbed", price : 700, name : "MB Bed" },	
+          [4] : { id :  "v_res_mdbed", price : 700, name : "MD Bed" },	
+          [5] : { id :  "v_res_msonbed", price : 700, name : "Mason Bed" },	
+          [6] : { id :  "v_res_tre_bed1", price : 700, name : "T Bed" },	
+          [7] : { id :  "v_res_tre_bed2", price : 700, name : "T Bed 2" },	
+          [8] : { id :  "v_res_tt_bed", price : 700, name : "TT Bed" },	
+        },
+
+
+        general : {
+          [1] : { id :  "v_corp_facebeanbag", price : 100, name : "Bean Bag 1" },
+          [2] : { id :  "v_res_cherubvase", price : 2500, name : "White Vase" },
+          [3] : { id :  "v_res_d_paddedwall", price : 300, name : "Padded Wall" },
+          [4] : { id :  "v_res_d_ramskull", price : 300, name : "Item" },
+          [5] : { id :  "v_res_d_whips", price : 300, name : "Whips" },
+          [6] : { id :  "v_res_fashmag1", price : 300, name : "Mags" },
+          [7] : { id :  "v_res_fashmagopen", price : 300, name : "Mags Open" },
+          [8] : { id :  "v_res_fa_magtidy", price : 300, name : "Mag Tidy" },
+          [9] : { id :  "v_res_fa_yogamat002", price : 300, name : "Yoga Mat 1" },
+          [10] : { id :  "v_res_fa_yogamat1", price : 300, name : "Yoga Mat 2" },
+          [11] : { id :  "v_res_fh_aftershavebox", price : 300, name : "Aftershave" },
+          [12] : { id :  "v_res_fh_flowersa", price : 300, name : "Flowers" },
+          [13] : { id :  "v_res_fh_fruitbowl", price : 300, name : "Fruitbowl" },
+          [14] : { id :  "v_res_fh_laundrybasket", price : 300, name : "Laundry Basket" },
+          [15] : { id :  "v_res_fh_pouf", price : 300, name : "Pouf" },
+          [16] : { id :  "v_res_fh_sculptmod", price : 300, name : "Sculpture" },
+          [17] : { id :  "v_res_j_magrack", price : 300, name : "Mag Rack" },
+          [18] : { id :  "v_res_jewelbox", price : 300, name : "Jewel Box" },
+          [19] : { id :  "v_res_mbbin", price : 300, name : "Bin" },
+          [20] : { id :  "v_res_mbowlornate", price : 300, name : "Ornate Bowl" },
+          [21] : { id :  "v_res_mbronzvase", price : 300, name : "Bronze Vase" },
+          [22] : { id :  "v_res_mchalkbrd", price : 300, name : "Chalk Board" },
+          [23] : { id :  "v_res_mddresser", price : 300, name : "Dresser" },
+          [24] : { id :  "v_res_mplinth", price : 300, name : "Linth" },
+          [25] : { id :  "v_res_mp_ashtrayb", price : 300, name : "Ashtray" },
+          [26] : { id :  "v_res_m_candle", price : 300, name : "Candle" },
+          [27] : { id :  "v_res_m_candlelrg", price : 300, name : "Candle Large" },
+          [28] : { id :  "v_res_m_kscales", price : 300, name : "Scales" },
+          [29] : { id :  "v_res_tt_bedpillow", price : 300, name : "Bed Pillow" },
+        },
+
+        general2 : {
+          [1] : { id :  "prop_a4_pile_01", price : 100, name : "A4 Pile" },
+          [2] : { id :  "prop_amb_40oz_03", price : 100, name : "40 oz" },
+          [3] : { id :  "prop_amb_beer_bottle", price : 100, name : "Beer" },
+          [4] : { id :  "prop_aviators_01", price : 100, name : "Aviators" },
+          [5] : { id :  "prop_barry_table_detail", price : 100, name : "Detail" },
+          [6] : { id :  "prop_beer_box_01", price : 100, name : "Beers" },
+          [7] : { id :  "prop_binoc_01", price : 100, name : "Binoculars" },
+          [8] : { id :  "prop_blox_spray", price : 100, name : "Blox Spray" },
+          [9] : { id :  "prop_bongos_01", price : 100, name : "Bongos" },
+          [10] : { id :  "prop_bong_01", price : 100, name : "Bong" },
+          [11] : { id :  "prop_boombox_01", price : 100, name : "Boombox" },
+          [12] : { id :  "prop_bowl_crisps", price : 100, name : "Bowl Crisps" },
+          [13] : { id :  "prop_candy_pqs", price : 100, name : "Candy" },
+          [14] : { id :  "prop_carrier_bag_01", price : 100, name : "Carrier bag" },
+          [15] : { id :  "prop_ceramic_jug_01", price : 100, name : "Ceramic Jug" },
+          [16] : { id :  "prop_cigar_pack_01", price : 100, name : "Cigar Pack 1" },
+          [17] : { id :  "prop_cigar_pack_02", price : 100, name : "Cigar Pack 2" },
+          [18] : { id :  "prop_cs_beer_box", price : 100, name : "Beer Box 2" },
+          [19] : { id :  "prop_cs_binder_01", price : 100, name : "Binder" },
+          [20] : { id :  "prop_cs_bs_cup", price : 100, name : "Cup" },
+          [21] : { id :  "prop_cs_cashenvelope", price : 100, name : "Envelope" },
+          [22] : { id :  "prop_cs_champ_flute", price : 100, name : "Flute" },
+          [23] : { id :  "prop_cs_duffel_01", price : 100, name : "Duffel Bag" },
+          [24] : { id :  "prop_cs_dvd", price : 50, name : "DVD" },
+          [25] : { id :  "prop_cs_dvd_case", price : 50, name : "DVD Case" },
+          [26] : { id :  "prop_cs_film_reel_01", price : 100, name : "Film Reel" },
+          [27] : { id :  "prop_cs_ilev_blind_01", price : 100, name : "Blind" },
+          [28] : { id :  "p_ld_bs_bag_01", price : 100, name : "Bag" },
+          [29] : { id :  "prop_cs_ironing_board", price : 100, name : "Ironing Board" },
+          [30] : { id :  "prop_cs_katana_01", price : 100, name : "Katana" },
+          [31] : { id :  "prop_cs_kettle_01", price : 100, name : "Kettle" },
+          [32] : { id :  "prop_cs_lester_crate", price : 100, name : "Crate" },
+          [33] : { id :  "prop_cs_petrol_can", price : 100, name : "Petrol Can" },
+          [34] : { id :  "prop_cs_sack_01", price : 100, name : "Sack" },
+          [35] : { id :  "prop_cs_script_bottle_01", price : 100, name : "Script Bottle" },
+          [36] : { id :  "prop_cs_script_bottle", price : 100, name : "Script Bottle 2" },
+          [37] : { id :  "prop_cs_street_binbag_01", price : 100, name : "Bin Bag" },
+          [38] : { id :  "prop_cs_whiskey_bottle", price : 100, name : "Whiskey Bottle" },
+          [39] : { id :  "prop_sh_bong_01", price : 100, name : "Bong" },
+          [40] : { id :  "prop_peanut_bowl_01", price : 100, name : "Peanuts" },
+          [41] : { id :  "prop_tumbler_01", price : 100, name : "Tumbler" },
+
+        },
+        general3 : {
+          [1] : { id :  "v_ret_csr_bin", price : 100, name : "CSR Bin" },
+          [2] : { id :  "v_ret_fh_wickbskt", price : 100, name : "Basket" },
+          [3] : { id :  "v_ret_gc_bag01", price : 100, name : "GC Bag 1" },
+          [4] : { id :  "v_ret_gc_bag02", price : 100, name : "GC Bag 2" },
+          [5] : { id :  "v_ret_gc_bin", price : 100, name : "GC Bin" },
+          [6] : { id :  "v_ret_gc_cashreg", price : 100, name : "Cash Register" },
+          [7] : { id :  "v_ret_gc_chair01", price : 100, name : "GC Chair 01" },
+          [8] : { id :  "v_ret_gc_chair02", price : 100, name : "GC Chair 02" },
+          [9] : { id :  "v_ret_gc_clock", price : 100, name : "Clock" },
+          [10] : { id :  "v_ret_hd_prod1_", price : 100, name : "Prod 1" },
+          [11] : { id :  "v_ret_hd_prod2_", price : 100, name : "Prod 2" },
+          [12] : { id :  "v_ret_hd_prod3_", price : 100, name : "Prod 3" },
+          [13] : { id :  "v_ret_hd_prod4_", price : 100, name : "Prod 4" },
+          [14] : { id :  "v_ret_hd_prod5_", price : 100, name : "Prod 5" },
+          [15] : { id :  "v_ret_hd_prod6_", price : 100, name : "Prod 6" },
+          [16] : { id :  "v_ret_hd_unit1_", price : 100, name : "HD Unit 1" },
+          [17] : { id :  "v_ret_hd_unit2_", price : 100, name : "HD Unit 2" },
+          [18] : { id :  "v_ret_ml_fridge02", price : 100, name : "Fridge" },
+          [19] : { id :  "v_ret_ps_bag_01", price : 100, name : "Bag 1" },
+          [20] : { id :  "v_ret_ps_bag_02", price : 100, name : "Bag 2" },
+          [21] : { id :  "v_ret_ta_book1", price : 100, name : "Book 1" },
+          [22] : { id :  "v_ret_ta_book2", price : 100, name : "Book 2" },
+          [23] : { id :  "v_ret_ta_book3", price : 100, name : "Book 3" },
+          [24] : { id :  "v_ret_ta_book4", price : 100, name : "Book 4" },
+          [25] : { id :  "v_ret_ta_camera", price : 100, name : "Cam" },
+          [26] : { id :  "v_ret_ta_firstaid", price : 100, name : "First Aid" },
+          [27] : { id :  "v_ret_ta_hero", price : 100, name : "Hero" },
+          [28] : { id :  "v_ret_ta_mag1", price : 100, name : "Mag 1" },
+          [29] : { id :  "v_ret_ta_mag2", price : 100, name : "Mag 2" },
+          [30] : { id :  "v_ret_ta_skull", price : 100, name : "Skull" },
+          [31] : { id :  "prop_acc_guitar_01", price : 100, name : "Guitar" },
+          [32] : { id :  "prop_amb_handbag_01", price : 100, name : "Handbag" },
+          [33] : { id :  "prop_attache_case_01", price : 100, name : "Case" },
+          [34] : { id :  "prop_big_bag_01", price : 100, name : "Big Bag" },
+          [35] : { id :  "prop_bonesaw", price : 100, name : "Bonesaw" },
+          [36] : { id :  "prop_cs_fertilizer", price : 100, name : "Fertilizer" },
+          [37] : { id :  "prop_cs_shopping_bag", price : 100, name : "Shopping Bag" },
+          [38] : { id :  "prop_cs_vial_01", price : 100, name : "Vial" },
+          [39] : { id :  "prop_defilied_ragdoll_01", price : 100, name : "Ragdoll" }, 
+        },
+        general4 : {
+          [1] : { id :  "prop_dummy_01", price : 100, name : "Dummy" },
+          [2] : { id :  "prop_egg_clock_01", price : 100, name : "Egg Clock" },
+          [3] : { id :  "prop_el_guitar_01", price : 100, name : "E Guitar 1" },
+          [4] : { id :  "prop_el_guitar_02", price : 100, name : "E Guitar 2" },
+          [5] : { id :  "prop_el_guitar_03", price : 100, name : "E Guitar 2" },
+          [6] : { id :  "prop_feed_sack_01", price : 100, name : "Feed Sack" },
+          [7] : { id :  "prop_floor_duster_01", price : 100, name : "Floor Duster" },
+          [8] : { id :  "prop_fruit_basket", price : 100, name : "Fruit Basket" },
+          [9] : { id :  "prop_f_duster_02", price : 100, name : "Duster" },
+          [10] : { id :  "prop_grapes_02", price : 100, name : "Grapes" },
+          [11] : { id :  "prop_hotel_clock_01", price : 100, name : "Hotel Clock" },
+          [12] : { id :  "prop_idol_case_01", price : 100, name : "Idol Case" },
+          [13] : { id :  "prop_jewel_02a", price : 100, name : "Jewels" },
+          [14] : { id :  "prop_jewel_02b", price : 100, name : "Jewels" },
+          [15] : { id :  "prop_jewel_02c", price : 100, name : "Jewels" },
+          [16] : { id :  "prop_jewel_03a", price : 100, name : "Jewels" },
+          [17] : { id :  "prop_jewel_03b", price : 100, name : "Jewels" },
+          [18] : { id :  "prop_jewel_04a", price : 100, name : "Jewels" },
+          [19] : { id :  "prop_jewel_04b", price : 100, name : "Jewels" },
+          [20] : { id :  "prop_j_disptray_01", price : 100, name : "Display Tray" },
+          [21] : { id :  "prop_j_disptray_01b", price : 100, name : "Display Tray" },
+          [22] : { id :  "prop_j_disptray_02", price : 100, name : "Display Tray" },
+          [23] : { id :  "prop_j_disptray_03", price : 100, name : "Display Tray" },
+          [24] : { id :  "prop_j_disptray_04", price : 100, name : "Display Tray" },
+          [25] : { id :  "prop_j_disptray_04b", price : 100, name : "Display Tray" },
+          [26] : { id :  "prop_j_disptray_05", price : 100, name : "Display Tray" },
+          [27] : { id :  "prop_j_disptray_05b", price : 100, name : "Display Tray" },
+          [28] : { id :  "prop_ld_greenscreen_01", price : 100, name : "Green Screen" },
+          [29] : { id :  "prop_ld_handbag", price : 100, name : "Handbag" },
+          [30] : { id :  "prop_ld_jerrycan_01", price : 100, name : "Jerry Can" },
+          [31] : { id :  "prop_ld_keypad_01", price : 100, name : "Keypad 1" },
+          [32] : { id :  "prop_ld_keypad_01b", price : 100, name : "Keypad 2" },
+          [33] : { id :  "prop_ld_suitcase_01", price : 100, name : "Suitcase 1" },
+          [34] : { id :  "prop_ld_suitcase_02", price : 100, name : "Suitcase 2" },
+          [35] : { id :  "hei_p_attache_case_shut", price : 100, name : "Suitcase 3"},
+          [36] : { id :  "prop_mr_rasberryclean", price : 100, name : "Rasberry Clean" },
+          [37] : { id :  "prop_paper_bag_01", price : 100, name : "Paper Bag" },
+          [38] : { id :  "prop_shopping_bags01", price : 100, name : "Shopping Bags" },
+          [39] : { id :  "prop_shopping_bags02", price : 100, name : "Shopping Bags 2" },
+          [40] : { id :  "prop_yoga_mat_01", price : 100, name : "Yoga Mat 1" },
+          [41] : { id :  "prop_yoga_mat_02", price : 100, name : "Yoga Mat 2" },
+          [42] : { id :  "prop_yoga_mat_03", price : 100, name : "Yoga Mat 3" },
+          [43] : { id :  "p_ld_sax", price : 100, name : "Sax" },
+          [44] : { id :  "p_ld_soc_ball_01", price : 100, name : "SOCCER Ball" },
+          [45] : { id :  "p_watch_01", price : 100, name : "Watch 1" },
+          [46] : { id :  "p_watch_02", price : 100, name : "Watch 2" },
+          [47] : { id :  "p_watch_03", price : 100, name : "Watch 3" },
+          [48] : { id :  "p_watch_04", price : 100, name : "Watch 4" },
+          [49] : { id :  "p_watch_05", price : 100, name : "Watch 5" },
+          [51] : { id :  "p_watch_06", price : 100, name : "Watch 6" },
+        },
+
+        small : {
+          [1] : { id :  "v_res_r_figcat", price : 300, name : "Fig Cat" },
+          [2] : { id :  "v_res_r_figclown", price : 300, name : "Fig Clown" },
+          [3] : { id :  "v_res_r_figauth2", price : 300, name : "Fig Auth" },
+          [4] : { id :  "v_res_r_figfemale", price : 300, name : "Fig Female" },
+          [5] : { id :  "v_res_r_figflamenco", price : 300, name : "Fig Flamenco" },
+          [6] : { id :  "v_res_r_figgirl", price : 300, name : "Fig Girl" },
+          [7] : { id :  "v_res_r_figgirlclown", price : 300, name : "Fig Girl Clown" },
+          [8] : { id :  "v_res_r_figoblisk", price : 300, name : "Fig Oblisk" },
+          [9] : { id :  "v_res_r_figpillar", price : 300, name : "Fig Pillar" },
+          [10] : { id :  "v_res_r_teapot", price : 300, name : "Teapot" },
+          [11] : { id :  "v_res_sculpt_dec", price : 300, name : "Sculpture 1" },
+          [12] : { id :  "v_res_sculpt_decd", price : 300, name : "Sculpture 2" },
+          [13] : { id :  "v_res_sculpt_dece", price : 300, name : "Sculpture 3" },
+          [14] : { id :  "v_res_sculpt_decf", price : 300, name : "Sculpture 4" },
+          [15] : { id :  "v_res_skateboard", price : 300, name : "Skateboard" },
+          [16] : { id :  "v_res_sketchpad", price : 300, name : "Sketchpad" },
+          [17] : { id :  "v_res_tissues", price : 300, name : "Tissues" },
+          [18] : { id :  "v_res_tre_basketmess", price : 300, name : "Basket" },
+          [19] : { id :  "v_res_tre_bin", price : 300, name : "Bin" },
+          [20] : { id :  "v_res_tre_cushiona", price : 300, name : "Cushion 1" },
+          [21] : { id :  "v_res_tre_cushionb", price : 300, name : "Cushion 2" },
+          [22] : { id :  "v_res_tre_cushionc", price : 300, name : "Cushion 3" },
+          [23] : { id :  "v_res_tre_cushiond", price : 300, name : "Cushion 4" },
+          [24] : { id :  "v_res_tre_cushnscuzb", price : 300, name : "Cushion 5" },
+          [25] : { id :  "v_res_tre_cushnscuzd", price : 300, name : "Cushion 6" },
+          [26] : { id :  "v_res_tre_fruitbowl", price : 300, name : "Fruitbowl" },
+          [27] : { id :  "v_med_p_sideboard", price : 300, name : "Sideboard" },
+          [28] : { id :  "prop_idol_01", price : 100, name : "Idol 1" },
+          
+
+        },
+
+        storage : {
+          [1] : { id :  "v_res_cabinet", price : 2500, name : "Cabinet Large" },
+          [2] : { id :  "v_res_d_dressingtable", price : 2500, name : "Dressing Table" },
+          [3] : { id :  "v_res_d_sideunit", price : 2500, name : "Side Unit" },
+          [4] : { id :  "v_res_fh_sidebrddine", price : 2500, name : "Side Unit" },
+          [5] : { id :  "v_res_fh_sidebrdlngb", price : 2500, name : "Side Unit" },
+          [6] : { id :  "v_res_mbbedtable", price : 2500, name : "Bed Unit" },
+          [7] : { id :  "v_res_j_tvstand", price : 2500, name : "Tv Unit" },
+          [8] : { id :  "v_res_mbdresser", price : 2500, name : "Dresser Unit" },
+          [9] : { id :  "v_res_mbottoman", price : 2500, name : "Bottoman Unit" },
+          [10] : { id :  "v_res_mconsolemod", price : 2500, name : "Console Unit" },
+          [11] : { id :  "v_res_mcupboard", price : 2500, name : "Cupboard Unit" },
+          [12] : { id :  "v_res_mdchest", price : 2500, name : "Chest Unit" },
+          [13] : { id :  "v_res_msoncabinet", price : 2500, name : "Mason Unit" },
+          [14] : { id :  "v_res_m_armoire", price : 2500, name : "Armoire Unit" },
+          [15] : { id :  "v_res_m_sidetable", price : 2500, name : "Side Unit" },
+          [16] : { id :  "v_res_son_desk", price : 2500, name : "Desk Unit" },
+          [17] : { id :  "v_res_tre_bedsidetable", price : 2500, name : "Side Unit" },
+          [18] : { id :  "v_res_tre_bedsidetableb", price : 2500, name : "Side Unit 2" },
+          [19] : { id :  "v_res_tre_smallbookshelf", price : 2500, name : "Book Unit" },
+          [20] : { id :  "v_res_tre_storagebox", price : 2500, name : "Box Unit" },
+          [21] : { id :  "v_res_tre_storageunit", price : 2500, name : "Storage Unit" },
+          [22] : { id :  "v_res_tre_wardrobe", price : 2500, name : "Wardrobe Unit" },
+          [23] : { id :  "v_res_tre_wdunitscuz", price : 2500, name : "Wood Unit" },
+          [24] : { id :  "prop_devin_box_closed", price : 100, name : "Bean Bag 1" },
+          [25] : { id :  "prop_mil_crate_01", price : 100, name : "Mil Crate 1" },
+          [26] : { id :  "prop_mil_crate_02", price : 100, name : "Mil Crate 2" },
+          [27] : { id :  "prop_ld_int_safe_01", price : 1100, name : "Safe" },
+        },
+
+        electronics : {
+          [1] : { id :  "prop_trailr_fridge", price : 300, name : "Old Fridge" },
+          [2] : { id :  "v_res_fh_speaker", price : 300, name : "Speaker" },
+          [3] : { id :  "v_res_fh_speakerdock", price : 300, name : "Speaker Dock" },
+          [4] : { id :  "v_res_fh_bedsideclock", price : 300, name : "Bedside Clock" },
+          [5] : { id :  "v_res_fa_phone", price : 300, name : "Phone" },
+          [6] : { id :  "v_res_fh_towerfan", price : 300, name : "Tower Fan" },
+          [7] : { id :  "v_res_fa_fan", price : 300, name : "Fan" },
+          [8] : { id :  "v_res_lest_bigscreen", price : 300, name : "Bigscreen" },
+          [9] : { id :  "v_res_lest_monitor", price : 300, name : "Monitor" },
+          [10] : { id :  "v_res_tre_mixer", price : 300, name : "Mixer" },
+          [11] : { id :  "prop_cs_cctv", price : 100, name : "CCTV" },
+          [12] : { id :  "prop_ld_lap_top", price : 100, name : "Laptop" },
+          [13] : { id :  "prop_ld_monitor_01", price : 100, name : "Monitor" },
+
+        },
+
+
+        lighting : {
+          [1] : { id :  "v_corp_cd_desklamp", price : 100, name : "Desk Corp Lamp" },
+          [2] : { id :  "v_res_desklamp", price : 100, name : "Desk Lamp" },
+          [3] : { id :  "v_res_d_lampa", price : 100, name : "Lamp AA" },
+          [4] : { id :  "v_res_fa_lamp1on", price : 100, name : "Lamp 1" },
+          [5] : { id :  "v_res_fh_floorlamp", price : 100, name : "Floor Lamp" },
+          [6] : { id :  "v_res_fh_lampa_on", price : 100, name : "Lamp 2" },
+          [7] : { id :  "v_res_j_tablelamp1", price : 100, name : "Table Lamp" },
+          [8] : { id :  "v_res_j_tablelamp2", price : 100, name : "Table Lamp 2" },
+          [9] : { id :  "v_res_mdbedlamp", price : 100, name : "Bed Lamp" },
+          [10] : { id :  "v_res_mplanttongue", price : 100, name : "Plant Tongue Lamp" },
+          [11] : { id :  "v_res_mtblelampmod", price : 100, name : "Table Lamp 3" },
+          [12] : { id :  "v_res_m_lampstand", price : 100, name : "Lamp Stand" },
+          [13] : { id :  "v_res_m_lampstand2", price : 100, name : "Lamp Stand 2" },
+          [14] : { id :  "v_res_m_lamptbl", price : 100, name : "Table Lamp 4" },
+          [15] : { id :  "v_res_tre_lightfan", price : 100, name : "Light Fan" },
+          [16] : { id :  "v_res_tre_talllamp", price : 100, name : "Tall Lamp" },
+          [17] : { id :  "v_ret_fh_walllighton", price : 100, name : "Wall Light" },
+          [18] : { id :  "v_ret_gc_lamp", price : 100, name : "GC Lamp" },
+
+          [19] : { id :  "prop_dummy_light", price : 100, name : "Flickering Light" },
+          [20] : { id :  "prop_ld_cont_light_01", price : 100, name : "Side Wall Light" },
+          [21] : { id :  "V_44_D_emis", price : 100, name : "Test Light" },
+
+
+
+        },
+
+
+        tables : {
+          [1] : { id :  "v_res_d_coffeetable", price : 500, name : "Coffee Table 1" },
+          [2] : { id :  "v_res_d_roundtable", price : 500, name : "Round Table" },
+          [3] : { id :  "v_res_d_smallsidetable", price : 500, name : "Small Side Table" },
+          [4] : { id :  "v_res_fh_coftablea", price : 500, name : "Table A" },
+          [5] : { id :  "v_res_fh_coftableb", price : 500, name : "Table B" },
+          [6] : { id :  "v_res_fh_coftbldisp", price : 500, name : "Table C" },
+          [7] : { id :  "v_res_fh_diningtable", price : 500, name : "Dining Table" },
+          [8] : { id :  "v_res_j_coffeetable", price : 500, name : "Coffee Table 2" },
+          [9] : { id :  "v_res_j_lowtable", price : 500, name : "Low Table" },
+          [10] : { id :  "v_res_mdbedtable", price : 500, name : "Bed Table" },
+          [11] : { id :  "v_res_mddesk", price : 500, name : "Desk" },
+          [12] : { id :  "v_res_msidetblemod", price : 500, name : "Side Table" },
+          [13] : { id :  "v_res_m_console", price : 500, name : "Console Table" },
+          [14] : { id :  "v_res_m_dinetble_replace", price : 500, name : "Dining Table 2" },
+          [15] : { id :  "v_res_m_h_console", price : 500, name : "Console H Table" },
+          [16] : { id :  "v_res_m_stool", price : 500, name : "Stool?" },
+          [17] : { id :  "v_res_tre_sideboard", price : 500, name : "Sideboard Table" },
+          [18] : { id :  "v_res_tre_table2", price : 500, name : "Table 2" },
+          [19] : { id :  "v_res_tre_tvstand", price : 500, name : "Tv Table" },
+          [20] : { id :  "v_res_tre_tvstand_tall", price : 500, name : "Tv Table Tall" },
+          [21] : { id :  "v_med_p_coffeetable", price : 500, name : "Med Coffee Table" },
+          [22] : { id :  "v_med_p_desk", price : 500, name : "Med Desk" },
+          [23] : { id :  "prop_yacht_table_01", price : 100, name : "Yacht Table 1" },
+          [24] : { id :  "prop_yacht_table_02", price : 100, name : "Yacht Table 2" },
+          [25] : { id :  "prop_yacht_table_03", price : 100, name : "Yacht Table 3" },
+          [26] : { id :  "v_ret_csr_table", price : 100, name : "CSR Table" },
+
+        },
+
+        plants : {
+          [1] : { id :  "prop_fib_plant_01", price : 150, name : "Plant Fib" },
+          [2] : { id :  "v_corp_bombplant", price : 170, name : "Plant Bomb" },		
+          [3] : { id :  "v_res_mflowers", price : 170, name : "Plant Flowers" },	
+          [4] : { id :  "v_res_mvasechinese", price : 170, name : "Plant Chinese" },	
+          [5] : { id :  "v_res_m_bananaplant", price : 170, name : "Plant Banana" },	
+          [6] : { id :  "v_res_m_palmplant1", price : 170, name : "Plant Palm" },	
+          [7] : { id :  "v_res_m_palmstairs", price : 170, name : "Plant Palm 2" },	
+          [8] : { id :  "v_res_m_urn", price : 170, name : "Plant Urn" },	
+          [9] : { id :  "v_res_rubberplant", price : 170, name : "Plant Rubber" },	
+          [10] : { id :  "v_res_tre_plant", price : 170, name : "Plant" },	
+          [11] : { id :  "v_res_tre_tree", price : 170, name : "Plant Tree" },	
+          [12] : { id :  "v_med_p_planter", price : 170, name : "Planter" },	
+          [13] : { id :  "v_ret_flowers", price : 100, name : "Flowers" },
+          [14] : { id :  "v_ret_j_flowerdisp", price : 100, name : "Flowers 1" },
+          [15] : { id :  "v_ret_j_flowerdisp_white", price : 100, name : "Flowers 2" },
+        },
+
+        kitchen : {
+          [1] : { id :  "prop_washer_01", price : 150, name : "Washer 1" },
+          [2] : { id :  "prop_washer_02", price : 150, name : "Washer 2" },
+          [3] : { id :  "prop_washer_03", price : 150, name : "Washer 3" },
+          [4] : { id :  "prop_washing_basket_01", price : 150, name : "Washing Basket" },
+          [5] : { id :  "v_res_fridgemoda", price : 150, name : "Fridge 1" },
+          [6] : { id :  "v_res_fridgemodsml", price : 150, name : "Fridge 2" },
+          [7] : { id :  "prop_fridge_01", price : 150, name : "Fridge 3" },
+          [8] : { id :  "prop_fridge_03", price : 150, name : "Fridge 4" },
+          [9] : { id :  "prop_cooker_03", price : 150, name : "Cooker" },
+          [10] : { id :  "prop_micro_01", price : 150, name : "Microwave 1" },
+          [11] : { id :  "prop_micro_02", price : 150, name : "Microwave 2" },
+          [12] : { id :  "prop_wok", price : 150, name : "Wok" },
+          [13] : { id :  "v_res_cakedome", price : 150, name : "Cake Plate" },
+          [14] : { id :  "v_res_fa_chopbrd", price : 150, name : "Chopping Board" },
+          [15] : { id :  "v_res_mutensils", price : 150, name : "Utensils" },
+          [16] : { id :  "v_res_pestle", price : 150, name : "Pestle" },
+          [17] : { id :  "v_ret_ta_paproll", price : 150, name : "PaperRoll 1" },
+          [18] : { id :  "v_ret_ta_paproll2", price : 150, name : "PaperRoll 2" },
+          [19] : { id :  "v_ret_fh_pot01", price : 150, name : "Pot 1" },
+          [20] : { id :  "v_ret_fh_pot02", price : 150, name : "Pot 2" },
+          [21] : { id :  "v_ret_fh_pot05", price : 150, name : "Pot 3" },
+          [22] : { id :  "prop_pot_03", price : 150, name : "Pot 4" },
+          [23] : { id :  "prop_pot_04", price : 150, name : "Pot 5" },
+          [24] : { id :  "prop_pot_05", price : 150, name : "Pot 6" },
+          [25] : { id :  "prop_pot_06", price : 150, name : "Pot 7" },
+          [26] : { id :  "prop_pot_rack", price : 150, name : "Pot Rack" },
+          [27] : { id :  "prop_kitch_juicer", price : 150, name : "Juicer" },
+
+        },
+
+
+        bathroom : {
+          [1] : { id :  "prop_ld_toilet_01", price : 100, name : "Toilet 1" },
+          [2] : { id :  "prop_toilet_01", price : 100, name : "Toilet 2" },
+          [3] : { id :  "prop_toilet_02", price : 100, name : "Toilet 3" },
+          [4] : { id :  "prop_sink_02", price : 100, name : "Sink 1" },
+          [5] : { id :  "prop_sink_04", price : 100, name : "Sink 2" },
+          [6] : { id :  "prop_sink_05", price : 100, name : "Sink 3" },
+          [7] : { id :  "prop_sink_06", price : 100, name : "Sink 4" },
+          [8] : { id :  "prop_soap_disp_01", price : 100, name : "Soap Dispenser" },
+          [9] : { id :  "prop_shower_rack_01", price : 100, name : "Shower Rack" },
+          [10] : { id :  "prop_handdry_01", price : 100, name : "Hand Dryer 1" },
+          [11] : { id :  "prop_handdry_02", price : 100, name : "Hand Dryer 2" },
+          [12] : { id :  "prop_towel_rail_01", price : 100, name : "Towel Rail 1" },
+          [13] : { id :  "prop_towel_rail_02", price : 100, name : "Towel Rail 2" },
+          [14] : { id :  "prop_towel_01", price : 100, name : "Towel 1" },
+          [15] : { id :  "v_res_mbtowel", price : 100, name : "Towel 2" },
+          [16] : { id :  "v_res_mbtowelfld", price : 100, name : "Towel 3" },
+          [17] : { id :  "v_res_mbath", price : 100, name : "Bath" },
+          [18] : { id :  "v_res_mbsink", price : 100, name : "Sink" },
+
+        },
+
+        medical : {
+          [1] : { id :  "v_med_barrel", price : 750, name : "Barrel" },
+          [2] : { id :  "v_med_apecrate", price : 750, name : "Ape Crate" },
+          [3] : { id :  "v_med_apecratelrg", price : 750, name : "Ape Crate Large" },
+          [4] : { id :  "v_med_bed1", price : 750, name : "Bed 1" },
+          [5] : { id :  "v_med_bed2", price : 750, name : "Bed 2" },
+          [6] : { id :  "v_med_bedtable", price : 750, name : "Bed Table" },
+          [7] : { id :  "v_med_bench1", price : 750, name : "Bench 1" },
+          [8] : { id :  "v_med_bench2", price : 750, name : "Bench 2" },
+          [9] : { id :  "v_med_benchcentr", price : 750, name : "Bench Center" },
+          [10] : { id :  "v_med_benchset1", price : 750, name : "Bench Set" },
+          [11] : { id :  "v_med_bigtable", price : 750, name : "Big Table" },
+          [12] : { id :  "v_med_bin", price : 150, name : "Bin" },
+          [13] : { id :  "v_med_centrifuge1", price : 750, name : "Centrifuge" },
+          [14] : { id :  "v_med_cooler", price : 750, name : "Cooler" },
+          [15] : { id :  "v_med_cor_ceilingmonitor", price : 750, name : "Monitor" },
+          [16] : { id :  "v_med_cor_autopsytbl", price : 750, name : "Autopsy Table" },
+          [17] : { id :  "v_med_cor_cembin", price : 750, name : "Bin" },
+          [18] : { id :  "v_med_cor_cemtrolly2", price : 750, name : "Trolley" },
+          [19] : { id :  "v_med_cor_chemical", price : 750, name : "Chem" },
+          [20] : { id :  "v_med_cor_emblmtable", price : 750, name : "BLM Table" },
+          [21] : { id :  "v_med_cor_fileboxa", price : 750, name : "File Box" },
+          [22] : { id :  "v_med_cor_filingcab", price : 750, name : "File Cab" },
+          [23] : { id :  "v_med_cor_hose", price : 750, name : "Hose" },
+          [24] : { id :  "v_med_cor_largecupboard", price : 750, name : "Large Cupboard" },
+          [25] : { id :  "v_med_cor_lightbox", price : 750, name : "Lightbox" },
+          [26] : { id :  "v_med_cor_medstool", price : 750, name : "Medstool" },
+          [27] : { id :  "v_med_cor_minifridge", price : 750, name : "Minifridge" },
+          [28] : { id :  "v_med_cor_papertowels", price : 750, name : "Papertowels" },
+          [29] : { id :  "v_med_cor_photocopy", price : 750, name : "Photocopy" },
+          [30] : { id :  "v_med_cor_tvstand", price : 750, name : "TV Stand" },
+          [31] : { id :  "v_med_cor_wallunita", price : 750, name : "Wall Unit" },
+          [32] : { id :  "v_med_examlight", price : 750, name : "Exam light" },
+          [33] : { id :  "v_med_gastank", price : 750, name : "Gas Tank" },
+          [34] : { id :  "v_med_hazmatscan", price : 750, name : "Hazmat Scan" },
+          [35] : { id :  "v_med_hospheadwall1", price : 750, name : "Head Wall" },
+          [36] : { id :  "v_med_hospseating1", price : 750, name : "Seating" },
+          [37] : { id :  "v_med_hosptable", price : 750, name : "Hosp Table" },
+          [38] : { id :  "v_med_latexgloveboxblue", price : 50, name : "Glove Box" },
+          [39] : { id :  "v_med_medwastebin", price : 750, name : "Wastebin" },
+          [40] : { id :  "v_med_oscillator3", price : 750, name : "Oscillator" },
+          [41] : { id :  "prop_ld_health_pack", price : 100, name : "Health Pack" },
+        },
+        }
+-->
