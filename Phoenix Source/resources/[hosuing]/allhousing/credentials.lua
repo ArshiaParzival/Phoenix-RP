@@ -1,3 +1,0 @@
-
-Credentials = {}
-Credentials.Token = ""
